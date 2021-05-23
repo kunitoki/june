@@ -2,5 +2,8 @@ nimcache/
 nimblecache/
 htmldocs/
 
+__pycache__/
+*.pyc
+
 build/
 test

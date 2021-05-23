@@ -5,19 +5,6 @@ from clang_base_enumerations import CursorKind, AccessSpecifier
 
 #==================================================================================================
 
-def filter_node_list_by_node_kind(
-        nodes: typing.Iterable[clang.cindex.Cursor],
-        kinds: list) -> typing.Iterable[clang.cindex.Cursor]:
-    result = []
-    for i in nodes:
-        if i.kind == CursorKind.NAMESPACE:
-            for k in i.get_children():
-                if k.kind in kinds:
-                    result.append(k)
-    return result
-
-#==================================================================================================
-
 nim_type_def = """type
 {classes}
 """
@@ -39,18 +26,31 @@ def remap_type(t, *args):
         "juce::uint64": "uint64"
     }
 
-    result = type_remapping.get(t.spelling, t.spelling)
+    parts = t.spelling.split(" ")
+
+    result = t.spelling
+    result = result.replace("const", "")
     result = result.replace("*", "")
     result = result.replace("&", "")
     result = result.strip()
 
+    result = type_remapping.get(result, result)
     for a in args:
         result = a.get(result, result)
 
-    if t.get_pointee().is_const_qualified():
-        result = f"var {result}"
+    if "const" not in parts and not t.get_pointee().is_const_qualified():
+        if "&" in parts:
+            result = f"var {result}"
 
     return result
+
+#==================================================================================================
+
+class_map = {}
+class_inheritance_map = {}
+class_inner = {}
+class_field_map = {}
+class_juce_map = {}
 
 #==================================================================================================
 
@@ -59,29 +59,46 @@ index = clang.cindex.Index.create()
 translation_unit = index.parse('../JUCE/modules/juce_core/juce_core.h',
     args=['-std=c++17', '-DJUCE_API=', '-DNDEBUG=1'])
 
-all_classes = filter_node_list_by_node_kind(translation_unit.cursor.get_children(),
-    [CursorKind.CLASS_DECL, CursorKind.STRUCT_DECL])
+top_level = translation_unit.cursor.get_children()
 
-class_map = {}
-class_inheritance_map = {}
-class_inner = {}
-class_field_map = {}
+juce_namespace = None
+for namespace in top_level.get_children():
+    if namespace.kind == CursorKind.NAMESPACE and namespace.spelling == "juce":
+        juce_namespace = namespace
+        break
 
+# TODO - Extract base types (ints, floats, aliases)
+
+# TODO - Extract freee functions
+
+# Extract all juce classes
+all_classes = [node for node in filter(
+    lambda x: x.kind == CursorKind.CLASS_DECL or x.kind == CursorKind.STRUCT_DECL, juce_namespace.get_children())]
+
+# Store internal mapping tables, build inheritance map
 for c in all_classes:
     bases = [node.referenced for node in filter(
         lambda x: x.kind == CursorKind.CXX_BASE_SPECIFIER, c.get_children())]
 
     inner_classes = [node for node in filter(
-        lambda x: x.kind == CursorKind.CLASS_DECL
-            or x.kind == CursorKind.STRUCT_DECL, c.get_children())]
+        lambda x: x.access_specifier == AccessSpecifier.PUBLIC and
+            (x.kind == CursorKind.CLASS_DECL or x.kind == CursorKind.STRUCT_DECL), c.get_children())]
 
     class_map[c.spelling] = c
     class_inheritance_map[c.spelling] = bases
     class_inner[c.spelling] = inner_classes
 
+    qualified_name = f"juce::{c.spelling}"
+    class_juce_map[qualified_name] = c.spelling
+
+# TODO - First pass: iterate classes and build dependency graph based on types in public interface
+
+# TODO - Sort the classes by dependencies
+
+# Second pass: iterate sorted classes (TODO) and generate Nim code
 for c in all_classes:
-    if c.spelling != "Thread":
-        continue
+    #if c.spelling != "Thread":
+    #    continue
 
     qualified_name = f"juce::{c.spelling}"
     classes_text = [
@@ -115,11 +132,11 @@ for c in all_classes:
         args = [ f"this: {'' if is_const_method else 'var '}{c.spelling}" ]
         for count, arg in enumerate(m.get_arguments()):
             spelling = arg.spelling if arg.spelling else f"arg{count + 1}"
-            args.append(f"{spelling}: {remap_type(arg.type, remap_inner_classes)}")
+            args.append(f"{spelling}: {remap_type(arg.type, remap_inner_classes, class_juce_map)}")
 
         return_type = ""
         if m.result_type.spelling != "void":
-            return_type = f": {m.result_type.spelling}"
+            return_type = f": {remap_type(m.result_type, remap_inner_classes, class_juce_map)}"
 
         print(nim_method_def.format(**{
             "name": m.spelling,

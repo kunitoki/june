@@ -1,3 +1,4 @@
+import os
 import clang.cindex
 import typing
 
@@ -56,24 +57,30 @@ class_juce_map = {}
 
 index = clang.cindex.Index.create()
 
-translation_unit = index.parse('../JUCE/modules/juce_core/juce_core.h',
+base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+translation_unit = index.parse(os.path.join(base_path, 'JUCE/modules/juce_core/juce_core.h'),
     args=['-std=c++17', '-DJUCE_API=', '-DNDEBUG=1'])
 
 top_level = translation_unit.cursor.get_children()
 
-juce_namespace = None
-for namespace in top_level.get_children():
-    if namespace.kind == CursorKind.NAMESPACE and namespace.spelling == "juce":
-        juce_namespace = namespace
-        break
+juce_namespace = []
+for entry in top_level:
+    if entry.kind == CursorKind.NAMESPACE and entry.spelling == "juce":
+        juce_namespace.append(entry)
 
 # TODO - Extract base types (ints, floats, aliases)
 
-# TODO - Extract freee functions
+# Extract free functions
+all_functions = []
+for entry in juce_namespace:
+    all_functions += [node for node in filter(
+        lambda x: x.kind == CursorKind.FUNCTION_DECL, entry.get_children())]
 
 # Extract all juce classes
-all_classes = [node for node in filter(
-    lambda x: x.kind == CursorKind.CLASS_DECL or x.kind == CursorKind.STRUCT_DECL, juce_namespace.get_children())]
+all_classes = []
+for entry in juce_namespace:
+    all_classes += [node for node in filter(
+        lambda x: x.kind == CursorKind.CLASS_DECL or x.kind == CursorKind.STRUCT_DECL, entry.get_children())]
 
 # Store internal mapping tables, build inheritance map
 for c in all_classes:

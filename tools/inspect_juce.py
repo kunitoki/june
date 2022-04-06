@@ -14,7 +14,7 @@ nim_type_def = """type
 
 nim_prolog_def = """import june_common
 
-const {juce_module_name} = "{juce_module_path}"
+const {juce_module_name} = "{juce_module_prefix}{juce_module_path}"
 """
 
 nim_suffix_def = """
@@ -103,6 +103,7 @@ def remap_class_name(class_name):
 
 def remap_identifier(identifier):
     remap_table = {
+        "type": "`type`",
         "end": "`end`",
         "object": "`object`",
         "method": "`method`",
@@ -186,6 +187,7 @@ def run_main(juce_module_name, juce_class_name_to_export):
 
     base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+    juce_module_prefix = "../../"
     juce_module_path = f"JUCE/modules/{juce_module_name}/{juce_module_name}.h"
     juce_args = ["-std=c++17", "-DJUCE_API=", "-DNDEBUG=1"]
 
@@ -234,7 +236,10 @@ def run_main(juce_module_name, juce_class_name_to_export):
     # TODO - Sort the classes by dependencies
 
     # Second pass: iterate sorted classes (TODO) and generate Nim code
-    print(nim_prolog_def.format(**{ "juce_module_name": juce_module_name, "juce_module_path": juce_module_path }))
+    print(nim_prolog_def.format(**{
+        "juce_module_name": juce_module_name,
+        "juce_module_prefix": juce_module_prefix,
+        "juce_module_path": juce_module_path }))
 
     for c in all_classes:
         if juce_class_name_to_export is not None and c.spelling != juce_class_name_to_export:
@@ -250,7 +255,10 @@ def run_main(juce_module_name, juce_class_name_to_export):
 
         if c.spelling not in done_classes:
             classes_text.append(
-                nim_class_def.format(**{ "class_name": class_name, "spelling": qualified_name, "juce_module_name": juce_module_name })
+                nim_class_def.format(**{
+                    "class_name": class_name,
+                    "spelling": qualified_name,
+                    "juce_module_name": juce_module_name })
             )
 
         remap_inner_classes = {}
@@ -261,7 +269,11 @@ def run_main(juce_module_name, juce_class_name_to_export):
 
                 if c.spelling not in done_classes:
                     classes_text.append(
-                        nim_class_def.format(**{ "class_name": inner_name, "spelling": inner_qualified_name, "juce_module_name": juce_module_name }))
+                        nim_class_def.format(**{
+                            "class_name": inner_name,
+                            "spelling": inner_qualified_name,
+                            "juce_module_name": juce_module_name })
+                    )
 
                 remap_inner_classes[inner_qualified_name] = inner_name
 
@@ -275,6 +287,9 @@ def run_main(juce_module_name, juce_class_name_to_export):
 
         for m in filter(lambda x: x.kind == CursorKind.CXX_METHOD, c.get_children()):
             if m.access_specifier != AccessSpecifier.PUBLIC:
+                continue
+
+            if m.spelling in ["JUCE_DEPRECATED", "JUCE_DEPRECATED_STATIC"]:
                 continue
 
             is_static_method = m.is_static_method()
@@ -306,7 +321,7 @@ def run_main(juce_module_name, juce_class_name_to_export):
             if m.result_type.spelling in ["CFStringRef", "OSType"]:
                 comment = "# "
 
-            if skip_class_method(class_name, m.spelling) or m.spelling in ["begin", "end"]:
+            if skip_class_method(class_name, m.spelling) or m.spelling in ["begin", "end", "cbegin", "cend"]:
                 comment = "# "
 
             method_spelling = m.spelling

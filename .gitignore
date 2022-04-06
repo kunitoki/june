@@ -1,9 +1,11 @@
 nimcache/
 nimblecache/
 htmldocs/
+build/
 
 __pycache__/
+.pytest_cache/
+.vscode/
 *.pyc
 
-build/
-test
+.DS_Store

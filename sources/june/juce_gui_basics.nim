@@ -1,11 +1,13 @@
 import june_common
+import juce_core
+import juce_events
 import juce_data_structures
 import juce_graphics
 
 const juce_gui_basics = "../../JUCE/modules/juce_gui_basics/juce_gui_basics.h"
 
 type
-  Component* {.header: juce_gui_basics, importcpp: "juce::Component".} = object
+  Component* {.header: juce_gui_basics, importcpp: "juce::Component", inheritable.} = object
   ComponentBailOutChecker* {.header: juce_gui_basics, importcpp: "juce::Component::BailOutChecker".} = object
   ComponentPositioner* {.header: juce_gui_basics, importcpp: "juce::Component::Positioner".} = object
 
@@ -1219,7 +1221,7 @@ proc isRecursive*(this: RelativeCoordinate, evaluationScope: ptr int): bool {.he
 proc isDynamic*(this: RelativeCoordinate): bool {.header: juce_gui_basics, importcpp: "#.isDynamic()".}
 proc moveToAbsolute*(this: var RelativeCoordinate, absoluteTargetPosition: float64, evaluationScope: ptr int) {.header: juce_gui_basics, importcpp: "#.moveToAbsolute(@)".}
 proc getExpression*(this: RelativeCoordinate): int {.header: juce_gui_basics, importcpp: "#.getExpression()".}
-proc toString*(this: RelativeCoordinate): int {.header: juce_gui_basics, importcpp: "#.toString()".}
+proc toString*(this: RelativeCoordinate): String {.header: juce_gui_basics, importcpp: "#.toString()".}
 
 type
   MarkerList* {.header: juce_gui_basics, importcpp: "juce::MarkerList".} = object
@@ -2207,10 +2209,10 @@ proc getBorderThickness*(this: var ResizableWindow): int {.header: juce_gui_basi
 proc getContentComponentBorder*(this: var ResizableWindow): int {.header: juce_gui_basics, importcpp: "#.getContentComponentBorder()".}
 
 type
-  DocumentWindow* {.header: juce_gui_basics, importcpp: "juce::DocumentWindow".} = object
+  DocumentWindow* {.header: juce_gui_basics, importcpp: "juce::DocumentWindow".} = object of Component
   DocumentWindowLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::DocumentWindow::LookAndFeelMethods".} = object
 
-proc setName*(this: var DocumentWindow, newName: int) {.header: juce_gui_basics, importcpp: "#.setName(@)".}
+proc setName*(this: var DocumentWindow, newName: StringRef) {.header: juce_gui_basics, importcpp: "#.setName(@)".}
 proc setIcon*(this: var DocumentWindow, imageToUse: int) {.header: juce_gui_basics, importcpp: "#.setIcon(@)".}
 proc setTitleBarHeight*(this: var DocumentWindow, newHeight: int) {.header: juce_gui_basics, importcpp: "#.setTitleBarHeight(@)".}
 proc getTitleBarHeight*(this: DocumentWindow): int {.header: juce_gui_basics, importcpp: "#.getTitleBarHeight()".}
@@ -2581,7 +2583,7 @@ proc resized*(this: var MultiChoicePropertyComponent) {.header: juce_gui_basics,
 proc refresh*(this: var MultiChoicePropertyComponent) {.header: juce_gui_basics, importcpp: "#.refresh()".}
 
 type
-  JUCEApplication* {.header: juce_gui_basics, importcpp: "juce::JUCEApplication".} = object
+  JUCEApplication* {.header: juce_gui_basics, importcpp: "juce::JUCEApplication".} = object of JUCEApplicationBase
 
 proc moreThanOneInstanceAllowed*(this: var JUCEApplication): bool {.header: juce_gui_basics, importcpp: "#.moreThanOneInstanceAllowed()".}
 proc anotherInstanceStarted*(this: var JUCEApplication, commandLine: int) {.header: juce_gui_basics, importcpp: "#.anotherInstanceStarted(@)".}

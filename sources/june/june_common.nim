@@ -8,3 +8,5 @@ type
   constPointer* = distinct voidpConstImpl
 
 converter toConstChar*(text: string): constChar = cast[constChar](text.cstring)
+
+proc cdelete*[T](x: ptr T) {.importcpp: "(delete @)", nodecl.}

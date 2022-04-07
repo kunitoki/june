@@ -59,7 +59,7 @@ type
 
 
 type
-  JUCEApplicationBase* {.header: juce_events, importcpp: "juce::JUCEApplicationBase".} = object
+  JUCEApplicationBase* {.header: juce_events, importcpp: "juce::JUCEApplicationBase", inheritable.} = object
 
 proc getApplicationName*(this: var JUCEApplicationBase): int {.header: juce_events, importcpp: "#.getApplicationName()".}
 proc getApplicationVersion*(this: var JUCEApplicationBase): int {.header: juce_events, importcpp: "#.getApplicationVersion()".}

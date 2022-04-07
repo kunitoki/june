@@ -52,6 +52,10 @@ type
 
 
 type
+  TopLevelWindow* {.header: juce_gui_basics, importcpp: "juce::TopLevelWindow".} = object of Component
+
+
+type
   AlertWindow* {.header: juce_gui_basics, importcpp: "juce::AlertWindow".} = object
   AlertWindowLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::AlertWindow::LookAndFeelMethods".} = object
 
@@ -84,7 +88,7 @@ type
 
 
 type
-  ResizableWindow* {.header: juce_gui_basics, importcpp: "juce::ResizableWindow".} = object
+  ResizableWindow* {.header: juce_gui_basics, importcpp: "juce::ResizableWindow".} = object of TopLevelWindow
   ResizableWindowLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::ResizableWindow::LookAndFeelMethods".} = object
 
 
@@ -2069,9 +2073,6 @@ proc filesDropped*(this: var TreeView, files: int, x: int, y: int) {.header: juc
 # proc itemDragExit*(this: var TreeView, arg1: juce::DragAndDropTarget::SourceDetails) {.header: juce_gui_basics, importcpp: "#.itemDragExit(@)".}
 # proc itemDropped*(this: var TreeView, arg1: juce::DragAndDropTarget::SourceDetails) {.header: juce_gui_basics, importcpp: "#.itemDropped(@)".}
 
-type
-  TopLevelWindow* {.header: juce_gui_basics, importcpp: "juce::TopLevelWindow".} = object
-
 proc isActiveWindow*(this: TopLevelWindow): bool {.header: juce_gui_basics, importcpp: "#.isActiveWindow()".}
 proc centreAroundComponent*(this: var TopLevelWindow, componentToCentreAround: ptr Component, width: int, height: int) {.header: juce_gui_basics, importcpp: "#.centreAroundComponent(@)".}
 proc setDropShadowEnabled*(this: var TopLevelWindow, useShadow: bool) {.header: juce_gui_basics, importcpp: "#.setDropShadowEnabled(@)".}
@@ -2209,7 +2210,7 @@ proc getBorderThickness*(this: var ResizableWindow): int {.header: juce_gui_basi
 proc getContentComponentBorder*(this: var ResizableWindow): int {.header: juce_gui_basics, importcpp: "#.getContentComponentBorder()".}
 
 type
-  DocumentWindow* {.header: juce_gui_basics, importcpp: "juce::DocumentWindow".} = object of Component
+  DocumentWindow* {.header: juce_gui_basics, importcpp: "juce::DocumentWindow".} = object of ResizableWindow
   DocumentWindowLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::DocumentWindow::LookAndFeelMethods".} = object
 
 proc setName*(this: var DocumentWindow, newName: StringRef) {.header: juce_gui_basics, importcpp: "#.setName(@)".}

@@ -14,8 +14,14 @@ task test, "Runs the test suite":
   exec "nim cpp -r tests/test_juce_graphics.nim"
   exec "nim cpp -r tests/test_juce_gui_basics.nim"
 
-task juce, "Build juce":
-  exec "mkdir -p build && cd build && cmake 'Ninja Multi-Config' ../ && cmake --build . --config Release"
+task juce_debug, "Build juce":
+  exec "mkdir -p build && cd build && cmake 'Ninja' -DCMAKE_BUILD_TYPE=Debug ../ && cmake --build ."
 
-task app, "Test june app":
+task juce_release, "Build juce":
+  exec "mkdir -p build && cd build && cmake 'Ninja' -DCMAKE_BUILD_TYPE=Release ../ && cmake --build ."
+
+task app_debug, "Test june app":
   exec "nim cpp -r examples/test_app.nim"
+
+task app_release, "Test june app":
+  exec "nim cpp -r -d:release examples/test_app.nim"

@@ -9,4 +9,5 @@ type
 
 converter toConstChar*(text: string): constChar = cast[constChar](text.cstring)
 
+proc cnew*[T](x: T): ptr T {.importcpp: "(new '*0#@)", nodecl.}
 proc cdelete*[T](x: ptr T) {.importcpp: "(delete @)", nodecl.}

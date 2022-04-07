@@ -8,7 +8,7 @@ import june/juce_data_structures
 import june/juce_graphics
 import june/juce_gui_basics
 
-{.emit: """
+{.emit: """/*TYPESECTION*/
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -23,13 +23,8 @@ namespace june {
 class JUNEApplication : public juce::JUCEApplication
 {
 public:
-    JUNEApplication()
-    {
-    }
-
-    ~JUNEApplication()
-    {
-    }
+    JUNEApplication() = default;
+    ~JUNEApplication() = default;
 
     const juce::String getApplicationName() override
     {
@@ -43,7 +38,7 @@ public:
 
     bool moreThanOneInstanceAllowed() override
     {
-        return false;
+        return true;
     }
 
     void anotherInstanceStarted(const juce::String& commandLine) override
@@ -53,13 +48,13 @@ public:
     void initialise(const juce::String& commandLine) override
     {
         if (initialiseCallback)
-            initialiseCallback(commandLine);
+            initialiseCallback(this, commandLine);
     }
 
     void shutdown() override
     {
         if (shutdownCallback)
-            shutdownCallback();
+            shutdownCallback(this);
     }
 
     void systemRequestedQuit() override
@@ -80,11 +75,13 @@ public:
     }
 
 public:
-    using InitialiseCallback = void (*)(juce::String);
-    using ShutdownCallback = void (*)();
+    using InitialiseCallback = void (*)(JUNEApplication*, juce::String);
+    using ShutdownCallback = void (*)(JUNEApplication*);
 
     juce::String applicationName;
     juce::String applicationVersion;
+
+    juce::DocumentWindow* window = nullptr;
 
     InitialiseCallback initialiseCallback = nullptr;
     ShutdownCallback shutdownCallback = nullptr;
@@ -123,27 +120,38 @@ type
   JUNEApplication {.importcpp: "june::JUNEApplication".} = object of JUCEApplication
     applicationName: String
     applicationVersion: String
-    initialiseCallback: proc(commandLine: String) {.cdecl.}
-    shutdownCallback: proc() {.cdecl.}
+    window: ptr DocumentWindow
+    initialiseCallback: proc(this: ptr JUNEApplication, commandLine: String) {.cdecl.}
+    shutdownCallback: proc(this: ptr JUNEApplication) {.cdecl.}
 
+var messageManager: ptr MessageManager = nil
 
 proc initialiseJune() {.importcpp: "june::initialiseJune()".}
 proc createApplication(): ptr JUNEApplication {.importcpp: "june::createApplication()".}
 proc initialiseApplication(application: ptr JUNEApplication): bool {.importcpp: "june::initialiseApplication(@)".}
 
-var window: ptr DocumentWindow
+proc ctrlc() {.noconv.} =
+  echo "Handling Control+C"
 
-proc initialiseCallback(commandLine: String) {.cdecl.} =
+  if not isNil(messageManager):
+    echo "Stopping the message loop..."
+
+    messageManager[].stopDispatchLoop()
+    messageManager = nil
+
+
+proc initialiseCallback(this: ptr JUNEApplication, commandLine: String) {.cdecl.} =
     echo "Starting JUNE App " & commandLine
 
-    window = newDocumentWindow("JUNE App", Colour(), DocumentWindow_allButtons, true)
-    window[].centreWithSize(640, 480)
-    window[].setVisible(true)
+    this[].window = newDocumentWindow("JUNE App", Colour(), DocumentWindow_allButtons, true)
+    this[].window[].setResizable(true, true)
+    this[].window[].centreWithSize(640, 480)
+    this[].window[].setVisible(true)
 
 
-proc shutdownCallback() {.cdecl.} =
+proc shutdownCallback(this: ptr JUNEApplication) {.cdecl.} =
     echo "Shutdown JUNE App "
-    cdelete(window)
+    cdelete(this[].window)
 
 
 proc START_JUCE_APPLICATION*() =
@@ -155,8 +163,10 @@ proc START_JUCE_APPLICATION*() =
 
     var result = QuitSuccess
 
-    var mm = MessageManager_getInstance()
-    mm[].setCurrentThreadAsMessageThread()
+    messageManager = MessageManager_getInstance()
+    messageManager[].setCurrentThreadAsMessageThread()
+
+    setControlCHook(ctrlc)
 
     var application: ptr JUNEApplication = nil
 
@@ -176,11 +186,13 @@ proc START_JUCE_APPLICATION*() =
 
         echo "Starting message loop..."
 
-        mm[].runDispatchLoop()
+        messageManager[].runDispatchLoop()
 
         echo "Finishing message loop..."
 
-    except OSError:
+    except:
+        echo "Exception catch..."
+
         result = QuitFailure
 
     finally:

@@ -18,12 +18,12 @@ project(${PROJECT_NAME})
 
 add_subdirectory("JUCE")
 
+set(POPSICLE_LTO "")
 if(UNIX AND NOT APPLE AND POPSICLE_MANYLINUX)
     message(STATUS "June - Compiling JUCE for manylinux2010")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-zero-as-null-pointer-constant")
-    set(POPSICLE_LTO "")
 else()
-    set(POPSICLE_LTO "juce::juce_recommended_lto_flags")
+    # set(POPSICLE_LTO "juce::juce_recommended_lto_flags")
 endif()
 
 add_library(${PROJECT_NAME} STATIC)
@@ -40,23 +40,23 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     JUCE_STRICT_REFCOUNTEDPOINTER=1)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    juce::juce_analytics
-    juce::juce_audio_basics
-    juce::juce_audio_devices
-    juce::juce_audio_formats
-    juce::juce_audio_processors
-    juce::juce_audio_utils
+    #juce::juce_analytics
+    #juce::juce_audio_basics
+    #juce::juce_audio_devices
+    #juce::juce_audio_formats
+    #juce::juce_audio_processors
+    #juce::juce_audio_utils
     juce::juce_core
-    juce::juce_cryptography
+    #juce::juce_cryptography
     juce::juce_data_structures
-    juce::juce_dsp
+    #juce::juce_dsp
     juce::juce_events
     juce::juce_graphics
     juce::juce_gui_basics
-    juce::juce_gui_extra
-    juce::juce_opengl
-    juce::juce_osc
-    juce::juce_video
+    #juce::juce_gui_extra
+    #juce::juce_opengl
+    #juce::juce_osc
+    #juce::juce_video
     juce::juce_recommended_config_flags
     juce::juce_recommended_warning_flags
     ${POPSICLE_LTO})

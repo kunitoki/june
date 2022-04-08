@@ -18,15 +18,16 @@ project(${PROJECT_NAME})
 
 add_subdirectory("JUCE")
 
-set(POPSICLE_LTO "")
+set(JUNE_LTO "")
 if(UNIX AND NOT APPLE AND POPSICLE_MANYLINUX)
     message(STATUS "June - Compiling JUCE for manylinux2010")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-zero-as-null-pointer-constant")
 else()
-    # set(POPSICLE_LTO "juce::juce_recommended_lto_flags")
+    # set(JUNE_LTO "juce::juce_recommended_lto_flags")
 endif()
 
 add_library(${PROJECT_NAME} STATIC)
+#add_library(${PROJECT_NAME} SHARED)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES JUCE_TARGET_KIND_STRING "App")
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
@@ -59,7 +60,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     #juce::juce_video
     juce::juce_recommended_config_flags
     juce::juce_recommended_warning_flags
-    ${POPSICLE_LTO})
+    ${JUNE_LTO})
 
 _juce_initialise_target(${PROJECT_NAME} VERSION 1.0.0)
 _juce_set_output_name(${PROJECT_NAME} $<TARGET_PROPERTY:${PROJECT_NAME},JUCE_PRODUCT_NAME>)

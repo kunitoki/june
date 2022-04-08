@@ -1,7 +1,7 @@
-import june_common
-import juce_events
+#import june_common
+#import juce_events
 
-const juce_graphics = "../../JUCE/modules/juce_graphics/juce_graphics.h"
+const juce_graphics = "<juce_graphics/juce_graphics.h>"
 
 type
   Image* {.header: juce_graphics, importcpp: "juce::Image".} = object
@@ -152,6 +152,7 @@ proc desaturate*(this: var PixelARGB): int {.header: juce_graphics, importcpp: "
 type
   Colour* {.header: juce_graphics, importcpp: "juce::Colour".} = object
 
+proc makeColour*(r: uint8, g: uint8, b: uint8, a: uint8): Colour {.header: juce_graphics, importcpp: "juce::Colour(@)", constructor.}
 proc `Colour=`*(this: var Colour, arg1: Colour): var Colour {.header: juce_graphics, importcpp: "#.operator=(@)".}
 proc `Colour==`*(this: Colour, other: Colour): bool {.header: juce_graphics, importcpp: "#.operator==(@)".}
 proc `Colour!=`*(this: Colour, other: Colour): bool {.header: juce_graphics, importcpp: "#.operator!=(@)".}

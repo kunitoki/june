@@ -1,6 +1,6 @@
-import june_common
+# import june_common
 
-const juce_core = "../../JUCE/modules/juce_core/juce_core.h"
+const juce_core = "<juce_core/juce_core.h>"
 
 
 type

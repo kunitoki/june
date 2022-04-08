@@ -1,14 +1,7 @@
-import june_common
-import juce_core
+#import june_common
+#import juce_core
 
-const juce_events = "../../JUCE/modules/juce_events/juce_events.h"
-
-type
-  MessageManagerLock* {.header: juce_events, importcpp: "juce::MessageManagerLock".} = object
-
-
-type
-  ThreadPoolJob* {.header: juce_events, importcpp: "juce::ThreadPoolJob".} = object
+const juce_events = "<juce_events/juce_events.h>"
 
 
 type
@@ -22,7 +15,7 @@ type
 type
   MessageManager* {.header: juce_events, importcpp: "juce::MessageManager".} = object
   MessageManagerMessageBase* {.header: juce_events, importcpp: "juce::MessageManager::MessageBase".} = object
-  #MessageManagerLock* {.header: juce_events, importcpp: "juce::MessageManager::Lock".} = object
+  MessageManagerLock* {.header: juce_events, importcpp: "juce::MessageManagerLock".} = object
 
 proc runDispatchLoop*(this: var MessageManager) {.header: juce_events, importcpp: "#.runDispatchLoop()".}
 proc stopDispatchLoop*(this: var MessageManager) {.header: juce_events, importcpp: "#.stopDispatchLoop()".}
@@ -138,11 +131,6 @@ proc getTimerInterval*(this: MultiTimer, timerID: int): int {.header: juce_event
 
 type
   InterprocessConnectionServer* {.header: juce_events, importcpp: "juce::InterprocessConnectionServer".} = object
-
-
-type
-  MemoryBlock* {.header: juce_events, importcpp: "juce::MemoryBlock".} = object
-
 
 type
   InterprocessConnection* {.header: juce_events, importcpp: "juce::InterprocessConnection".} = object

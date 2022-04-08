@@ -1,7 +1,7 @@
-import june_common
-import juce_events
+#import june_common
+#import juce_events
 
-const juce_data_structures = "../../JUCE/modules/juce_data_structures/juce_data_structures.h"
+const juce_data_structures = "<juce_data_structures/juce_data_structures.h>"
 
 type
   UndoableAction* {.header: juce_data_structures, importcpp: "juce::UndoableAction".} = object

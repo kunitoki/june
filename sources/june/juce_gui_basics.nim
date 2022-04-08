@@ -1,10 +1,10 @@
-import june_common
-import juce_core
-import juce_events
-import juce_data_structures
-import juce_graphics
+#import june_common
+#import juce_core
+#import juce_events
+#import juce_data_structures
+#import juce_graphics
 
-const juce_gui_basics = "../../JUCE/modules/juce_gui_basics/juce_gui_basics.h"
+const juce_gui_basics = "<juce_gui_basics/juce_gui_basics.h>"
 
 type
   Component* {.header: juce_gui_basics, importcpp: "juce::Component", inheritable.} = object
@@ -61,10 +61,6 @@ type
 
 
 type
-  TextLayout* {.header: juce_gui_basics, importcpp: "juce::TextLayout".} = object
-
-
-type
   ScrollBar* {.header: juce_gui_basics, importcpp: "juce::ScrollBar".} = object
   ScrollBarListener* {.header: juce_gui_basics, importcpp: "juce::ScrollBar::Listener".} = object
   ScrollBarLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::ScrollBar::LookAndFeelMethods".} = object
@@ -94,10 +90,6 @@ type
 
 type
   MenuBarComponent* {.header: juce_gui_basics, importcpp: "juce::MenuBarComponent".} = object
-
-
-type
-  GlyphArrangement* {.header: juce_gui_basics, importcpp: "juce::GlyphArrangement".} = object
 
 
 type
@@ -2209,36 +2201,37 @@ proc setContentComponentSize*(this: var ResizableWindow, width: int, height: int
 proc getBorderThickness*(this: var ResizableWindow): int {.header: juce_gui_basics, importcpp: "#.getBorderThickness()".}
 proc getContentComponentBorder*(this: var ResizableWindow): int {.header: juce_gui_basics, importcpp: "#.getContentComponentBorder()".}
 
+
 type
-  DocumentWindow* {.header: juce_gui_basics, importcpp: "juce::DocumentWindow".} = object of ResizableWindow
+  DocumentWindowImpl {.header: juce_gui_basics, importcpp: "juce::DocumentWindow".} = object of ResizableWindow
   DocumentWindowLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::DocumentWindow::LookAndFeelMethods".} = object
 
-proc setName*(this: var DocumentWindow, newName: StringRef) {.header: juce_gui_basics, importcpp: "#.setName(@)".}
-proc setIcon*(this: var DocumentWindow, imageToUse: int) {.header: juce_gui_basics, importcpp: "#.setIcon(@)".}
-proc setTitleBarHeight*(this: var DocumentWindow, newHeight: int) {.header: juce_gui_basics, importcpp: "#.setTitleBarHeight(@)".}
-proc getTitleBarHeight*(this: DocumentWindow): int {.header: juce_gui_basics, importcpp: "#.getTitleBarHeight()".}
-proc setTitleBarButtonsRequired*(this: var DocumentWindow, requiredButtons: int, positionTitleBarButtonsOnLeft: bool) {.header: juce_gui_basics, importcpp: "#.setTitleBarButtonsRequired(@)".}
-proc setTitleBarTextCentred*(this: var DocumentWindow, textShouldBeCentred: bool) {.header: juce_gui_basics, importcpp: "#.setTitleBarTextCentred(@)".}
-proc setMenuBar*(this: var DocumentWindow, menuBarModel: ptr MenuBarModel, menuBarHeight: int = 0) {.header: juce_gui_basics, importcpp: "#.setMenuBar(@)".}
-proc getMenuBarComponent*(this: DocumentWindow): ptr Component {.header: juce_gui_basics, importcpp: "#.getMenuBarComponent()".}
-proc setMenuBarComponent*(this: var DocumentWindow, newMenuBarComponent: ptr Component) {.header: juce_gui_basics, importcpp: "#.setMenuBarComponent(@)".}
-proc closeButtonPressed*(this: var DocumentWindow) {.header: juce_gui_basics, importcpp: "#.closeButtonPressed()".}
-proc minimiseButtonPressed*(this: var DocumentWindow) {.header: juce_gui_basics, importcpp: "#.minimiseButtonPressed()".}
-proc maximiseButtonPressed*(this: var DocumentWindow) {.header: juce_gui_basics, importcpp: "#.maximiseButtonPressed()".}
-proc getCloseButton*(this: DocumentWindow): ptr Button {.header: juce_gui_basics, importcpp: "#.getCloseButton()".}
-proc getMinimiseButton*(this: DocumentWindow): ptr Button {.header: juce_gui_basics, importcpp: "#.getMinimiseButton()".}
-proc getMaximiseButton*(this: DocumentWindow): ptr Button {.header: juce_gui_basics, importcpp: "#.getMaximiseButton()".}
-proc paint*(this: var DocumentWindow, arg1: var int) {.header: juce_gui_basics, importcpp: "#.paint(@)".}
-proc resized*(this: var DocumentWindow) {.header: juce_gui_basics, importcpp: "#.resized()".}
-proc lookAndFeelChanged*(this: var DocumentWindow) {.header: juce_gui_basics, importcpp: "#.lookAndFeelChanged()".}
-proc getBorderThickness*(this: var DocumentWindow): int {.header: juce_gui_basics, importcpp: "#.getBorderThickness()".}
-proc getContentComponentBorder*(this: var DocumentWindow): int {.header: juce_gui_basics, importcpp: "#.getContentComponentBorder()".}
-proc mouseDoubleClick*(this: var DocumentWindow, arg1: MouseEvent) {.header: juce_gui_basics, importcpp: "#.mouseDoubleClick(@)".}
-proc userTriedToCloseWindow*(this: var DocumentWindow) {.header: juce_gui_basics, importcpp: "#.userTriedToCloseWindow()".}
-proc activeWindowStatusChanged*(this: var DocumentWindow) {.header: juce_gui_basics, importcpp: "#.activeWindowStatusChanged()".}
-proc getDesktopWindowStyleFlags*(this: DocumentWindow): int {.header: juce_gui_basics, importcpp: "#.getDesktopWindowStyleFlags()".}
-proc parentHierarchyChanged*(this: var DocumentWindow) {.header: juce_gui_basics, importcpp: "#.parentHierarchyChanged()".}
-proc getTitleBarArea*(this: var DocumentWindow): int {.header: juce_gui_basics, importcpp: "#.getTitleBarArea()".}
+proc setName*(this: var DocumentWindowImpl, newName: StringRef) {.header: juce_gui_basics, importcpp: "#.setName(@)".}
+proc setIcon*(this: var DocumentWindowImpl, imageToUse: int) {.header: juce_gui_basics, importcpp: "#.setIcon(@)".}
+proc setTitleBarHeight*(this: var DocumentWindowImpl, newHeight: int) {.header: juce_gui_basics, importcpp: "#.setTitleBarHeight(@)".}
+proc getTitleBarHeight*(this: DocumentWindowImpl): int {.header: juce_gui_basics, importcpp: "#.getTitleBarHeight()".}
+proc setTitleBarButtonsRequired*(this: var DocumentWindowImpl, requiredButtons: int, positionTitleBarButtonsOnLeft: bool) {.header: juce_gui_basics, importcpp: "#.setTitleBarButtonsRequired(@)".}
+proc setTitleBarTextCentred*(this: var DocumentWindowImpl, textShouldBeCentred: bool) {.header: juce_gui_basics, importcpp: "#.setTitleBarTextCentred(@)".}
+proc setMenuBar*(this: var DocumentWindowImpl, menuBarModel: ptr MenuBarModel, menuBarHeight: int = 0) {.header: juce_gui_basics, importcpp: "#.setMenuBar(@)".}
+proc getMenuBarComponent*(this: DocumentWindowImpl): ptr Component {.header: juce_gui_basics, importcpp: "#.getMenuBarComponent()".}
+proc setMenuBarComponent*(this: var DocumentWindowImpl, newMenuBarComponent: ptr Component) {.header: juce_gui_basics, importcpp: "#.setMenuBarComponent(@)".}
+proc closeButtonPressed*(this: var DocumentWindowImpl) {.header: juce_gui_basics, importcpp: "#.closeButtonPressed()".}
+proc minimiseButtonPressed*(this: var DocumentWindowImpl) {.header: juce_gui_basics, importcpp: "#.minimiseButtonPressed()".}
+proc maximiseButtonPressed*(this: var DocumentWindowImpl) {.header: juce_gui_basics, importcpp: "#.maximiseButtonPressed()".}
+proc getCloseButton*(this: DocumentWindowImpl): ptr Button {.header: juce_gui_basics, importcpp: "#.getCloseButton()".}
+proc getMinimiseButton*(this: DocumentWindowImpl): ptr Button {.header: juce_gui_basics, importcpp: "#.getMinimiseButton()".}
+proc getMaximiseButton*(this: DocumentWindowImpl): ptr Button {.header: juce_gui_basics, importcpp: "#.getMaximiseButton()".}
+proc paint*(this: var DocumentWindowImpl, arg1: var int) {.header: juce_gui_basics, importcpp: "#.paint(@)".}
+proc resized*(this: var DocumentWindowImpl) {.header: juce_gui_basics, importcpp: "#.resized()".}
+proc lookAndFeelChanged*(this: var DocumentWindowImpl) {.header: juce_gui_basics, importcpp: "#.lookAndFeelChanged()".}
+proc getBorderThickness*(this: var DocumentWindowImpl): int {.header: juce_gui_basics, importcpp: "#.getBorderThickness()".}
+proc getContentComponentBorder*(this: var DocumentWindowImpl): int {.header: juce_gui_basics, importcpp: "#.getContentComponentBorder()".}
+proc mouseDoubleClick*(this: var DocumentWindowImpl, arg1: MouseEvent) {.header: juce_gui_basics, importcpp: "#.mouseDoubleClick(@)".}
+proc userTriedToCloseWindow*(this: var DocumentWindowImpl) {.header: juce_gui_basics, importcpp: "#.userTriedToCloseWindow()".}
+proc activeWindowStatusChanged*(this: var DocumentWindowImpl) {.header: juce_gui_basics, importcpp: "#.activeWindowStatusChanged()".}
+proc getDesktopWindowStyleFlags*(this: DocumentWindowImpl): int {.header: juce_gui_basics, importcpp: "#.getDesktopWindowStyleFlags()".}
+proc parentHierarchyChanged*(this: var DocumentWindowImpl) {.header: juce_gui_basics, importcpp: "#.parentHierarchyChanged()".}
+proc getTitleBarArea*(this: var DocumentWindowImpl): int {.header: juce_gui_basics, importcpp: "#.getTitleBarArea()".}
 
 type
   DialogWindow* {.header: juce_gui_basics, importcpp: "juce::DialogWindow".} = object
@@ -2584,18 +2577,18 @@ proc resized*(this: var MultiChoicePropertyComponent) {.header: juce_gui_basics,
 proc refresh*(this: var MultiChoicePropertyComponent) {.header: juce_gui_basics, importcpp: "#.refresh()".}
 
 type
-  JUCEApplication* {.header: juce_gui_basics, importcpp: "juce::JUCEApplication".} = object of JUCEApplicationBase
+  JUCEApplicationImpl {.header: juce_gui_basics, importcpp: "juce::JUCEApplication".} = object of JUCEApplicationBase
 
-proc moreThanOneInstanceAllowed*(this: var JUCEApplication): bool {.header: juce_gui_basics, importcpp: "#.moreThanOneInstanceAllowed()".}
-proc anotherInstanceStarted*(this: var JUCEApplication, commandLine: int) {.header: juce_gui_basics, importcpp: "#.anotherInstanceStarted(@)".}
-proc systemRequestedQuit*(this: var JUCEApplication) {.header: juce_gui_basics, importcpp: "#.systemRequestedQuit()".}
-proc suspended*(this: var JUCEApplication) {.header: juce_gui_basics, importcpp: "#.suspended()".}
-proc resumed*(this: var JUCEApplication) {.header: juce_gui_basics, importcpp: "#.resumed()".}
-proc unhandledException*(this: var JUCEApplication, e: ptr int, sourceFilename: int, lineNumber: int) {.header: juce_gui_basics, importcpp: "#.unhandledException(@)".}
-proc getNextCommandTarget*(this: var JUCEApplication): ptr ApplicationCommandTarget {.header: juce_gui_basics, importcpp: "#.getNextCommandTarget()".}
-# proc getCommandInfo*(this: var JUCEApplication, arg1: juce::CommandID, arg2: var ApplicationCommandInfo) {.header: juce_gui_basics, importcpp: "#.getCommandInfo(@)".}
-proc getAllCommands*(this: var JUCEApplication, arg1: var int) {.header: juce_gui_basics, importcpp: "#.getAllCommands(@)".}
-# proc perform*(this: var JUCEApplication, arg1: juce::ApplicationCommandTarget::InvocationInfo): bool {.header: juce_gui_basics, importcpp: "#.perform(@)".}
+proc moreThanOneInstanceAllowed*(this: var JUCEApplicationImpl): bool {.header: juce_gui_basics, importcpp: "#.moreThanOneInstanceAllowed()".}
+proc anotherInstanceStarted*(this: var JUCEApplicationImpl, commandLine: int) {.header: juce_gui_basics, importcpp: "#.anotherInstanceStarted(@)".}
+proc systemRequestedQuit*(this: var JUCEApplicationImpl) {.header: juce_gui_basics, importcpp: "#.systemRequestedQuit()".}
+proc suspended*(this: var JUCEApplicationImpl) {.header: juce_gui_basics, importcpp: "#.suspended()".}
+proc resumed*(this: var JUCEApplicationImpl) {.header: juce_gui_basics, importcpp: "#.resumed()".}
+proc unhandledException*(this: var JUCEApplicationImpl, e: ptr int, sourceFilename: int, lineNumber: int) {.header: juce_gui_basics, importcpp: "#.unhandledException(@)".}
+proc getNextCommandTarget*(this: var JUCEApplicationImpl): ptr ApplicationCommandTarget {.header: juce_gui_basics, importcpp: "#.getNextCommandTarget()".}
+# proc getCommandInfo*(this: var JUCEApplicationImpl, arg1: juce::CommandID, arg2: var ApplicationCommandInfo) {.header: juce_gui_basics, importcpp: "#.getCommandInfo(@)".}
+proc getAllCommands*(this: var JUCEApplicationImpl, arg1: var int) {.header: juce_gui_basics, importcpp: "#.getAllCommands(@)".}
+# proc perform*(this: var JUCEApplicationImpl, arg1: juce::ApplicationCommandTarget::InvocationInfo): bool {.header: juce_gui_basics, importcpp: "#.perform(@)".}
 
 type
   BubbleComponent* {.header: juce_gui_basics, importcpp: "juce::BubbleComponent".} = object
@@ -2728,9 +2721,9 @@ proc drawCornerResizer*(this: var LookAndFeel_V2, arg1: var int, w: int, h: int,
 proc drawResizableFrame*(this: var LookAndFeel_V2, arg1: var int, w: int, h: int, arg4: int) {.header: juce_gui_basics, importcpp: "#.drawResizableFrame(@)".}
 proc fillResizableWindowBackground*(this: var LookAndFeel_V2, arg1: var int, w: int, h: int, arg4: int, arg5: var ResizableWindow) {.header: juce_gui_basics, importcpp: "#.fillResizableWindowBackground(@)".}
 proc drawResizableWindowBorder*(this: var LookAndFeel_V2, arg1: var int, w: int, h: int, border: int, arg5: var ResizableWindow) {.header: juce_gui_basics, importcpp: "#.drawResizableWindowBorder(@)".}
-proc drawDocumentWindowTitleBar*(this: var LookAndFeel_V2, arg1: var DocumentWindow, arg2: var int, w: int, h: int, titleSpaceX: int, titleSpaceW: int, icon: ptr int, drawTitleTextOnLeft: bool) {.header: juce_gui_basics, importcpp: "#.drawDocumentWindowTitleBar(@)".}
+proc drawDocumentWindowTitleBar*(this: var LookAndFeel_V2, arg1: var DocumentWindowImpl, arg2: var int, w: int, h: int, titleSpaceX: int, titleSpaceW: int, icon: ptr int, drawTitleTextOnLeft: bool) {.header: juce_gui_basics, importcpp: "#.drawDocumentWindowTitleBar(@)".}
 proc createDocumentWindowButton*(this: var LookAndFeel_V2, buttonType: int): ptr Button {.header: juce_gui_basics, importcpp: "#.createDocumentWindowButton(@)".}
-proc positionDocumentWindowButtons*(this: var LookAndFeel_V2, arg1: var DocumentWindow, titleBarX: int, titleBarY: int, titleBarW: int, titleBarH: int, minimiseButton: ptr Button, maximiseButton: ptr Button, closeButton: ptr Button, positionTitleBarButtonsOnLeft: bool) {.header: juce_gui_basics, importcpp: "#.positionDocumentWindowButtons(@)".}
+proc positionDocumentWindowButtons*(this: var LookAndFeel_V2, arg1: var DocumentWindowImpl, titleBarX: int, titleBarY: int, titleBarW: int, titleBarH: int, minimiseButton: ptr Button, maximiseButton: ptr Button, closeButton: ptr Button, positionTitleBarButtonsOnLeft: bool) {.header: juce_gui_basics, importcpp: "#.positionDocumentWindowButtons(@)".}
 proc createDropShadowerForComponent*(this: var LookAndFeel_V2, arg1: ptr Component): ptr DropShadower {.header: juce_gui_basics, importcpp: "#.createDropShadowerForComponent(@)".}
 proc drawStretchableLayoutResizerBar*(this: var LookAndFeel_V2, arg1: var int, w: int, h: int, isVerticalBar: bool, isMouseOver: bool, isMouseDragging: bool) {.header: juce_gui_basics, importcpp: "#.drawStretchableLayoutResizerBar(@)".}
 proc drawGroupComponentOutline*(this: var LookAndFeel_V2, arg1: var int, w: int, h: int, text: int, arg5: int, arg6: var GroupComponent) {.header: juce_gui_basics, importcpp: "#.drawGroupComponentOutline(@)".}
@@ -2788,7 +2781,7 @@ proc createSliderButton*(this: var LookAndFeel_V1, arg1: var Slider, isIncrement
 proc getSliderEffect*(this: var LookAndFeel_V1, arg1: var Slider): ptr int {.header: juce_gui_basics, importcpp: "#.getSliderEffect(@)".}
 proc drawCornerResizer*(this: var LookAndFeel_V1, arg1: var int, w: int, h: int, isMouseOver: bool, isMouseDragging: bool) {.header: juce_gui_basics, importcpp: "#.drawCornerResizer(@)".}
 proc createDocumentWindowButton*(this: var LookAndFeel_V1, buttonType: int): ptr Button {.header: juce_gui_basics, importcpp: "#.createDocumentWindowButton(@)".}
-proc positionDocumentWindowButtons*(this: var LookAndFeel_V1, arg1: var DocumentWindow, titleBarX: int, titleBarY: int, titleBarW: int, titleBarH: int, minimiseButton: ptr Button, maximiseButton: ptr Button, closeButton: ptr Button, positionTitleBarButtonsOnLeft: bool) {.header: juce_gui_basics, importcpp: "#.positionDocumentWindowButtons(@)".}
+proc positionDocumentWindowButtons*(this: var LookAndFeel_V1, arg1: var DocumentWindowImpl, titleBarX: int, titleBarY: int, titleBarW: int, titleBarH: int, minimiseButton: ptr Button, maximiseButton: ptr Button, closeButton: ptr Button, positionTitleBarButtonsOnLeft: bool) {.header: juce_gui_basics, importcpp: "#.positionDocumentWindowButtons(@)".}
 
 type
   LookAndFeel_V3* {.header: juce_gui_basics, importcpp: "juce::LookAndFeel_V3".} = object
@@ -2824,8 +2817,8 @@ type
 proc setColourScheme*(this: var LookAndFeel_V4, arg1: LookAndFeel_V4ColourScheme) {.header: juce_gui_basics, importcpp: "#.setColourScheme(@)".}
 proc getCurrentColourScheme*(this: var LookAndFeel_V4): var LookAndFeel_V4ColourScheme {.header: juce_gui_basics, importcpp: "#.getCurrentColourScheme()".}
 proc createDocumentWindowButton*(this: var LookAndFeel_V4, arg1: int): ptr Button {.header: juce_gui_basics, importcpp: "#.createDocumentWindowButton(@)".}
-proc positionDocumentWindowButtons*(this: var LookAndFeel_V4, arg1: var DocumentWindow, arg2: int, arg3: int, arg4: int, arg5: int, arg6: ptr Button, arg7: ptr Button, arg8: ptr Button, arg9: bool) {.header: juce_gui_basics, importcpp: "#.positionDocumentWindowButtons(@)".}
-proc drawDocumentWindowTitleBar*(this: var LookAndFeel_V4, arg1: var DocumentWindow, arg2: var int, arg3: int, arg4: int, arg5: int, arg6: int, arg7: ptr int, arg8: bool) {.header: juce_gui_basics, importcpp: "#.drawDocumentWindowTitleBar(@)".}
+proc positionDocumentWindowButtons*(this: var LookAndFeel_V4, arg1: var DocumentWindowImpl, arg2: int, arg3: int, arg4: int, arg5: int, arg6: ptr Button, arg7: ptr Button, arg8: ptr Button, arg9: bool) {.header: juce_gui_basics, importcpp: "#.positionDocumentWindowButtons(@)".}
+proc drawDocumentWindowTitleBar*(this: var LookAndFeel_V4, arg1: var DocumentWindowImpl, arg2: var int, arg3: int, arg4: int, arg5: int, arg6: int, arg7: ptr int, arg8: bool) {.header: juce_gui_basics, importcpp: "#.drawDocumentWindowTitleBar(@)".}
 proc getTextButtonFont*(this: var LookAndFeel_V4, arg1: var TextButton, buttonHeight: int): int {.header: juce_gui_basics, importcpp: "#.getTextButtonFont(@)".}
 proc drawButtonBackground*(this: var LookAndFeel_V4, arg1: var int, arg2: var Button, backgroundColour: int, shouldDrawButtonAsHighlighted: bool, shouldDrawButtonAsDown: bool) {.header: juce_gui_basics, importcpp: "#.drawButtonBackground(@)".}
 proc drawToggleButton*(this: var LookAndFeel_V4, arg1: var int, arg2: var ToggleButton, shouldDrawButtonAsHighlighted: bool, shouldDrawButtonAsDown: bool) {.header: juce_gui_basics, importcpp: "#.drawToggleButton(@)".}

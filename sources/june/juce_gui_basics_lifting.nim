@@ -1,3 +1,9 @@
+# June
+# Copyright (c) 2022 Lucio Asnaghi
+# Licensed and distributed under either of
+#   * MIT license (license terms in the root directory or at http://opensource.org/licenses/MIT).
+# at your option. This file may not be copied, modified, or distributed except according to those terms.
+
 # JUCEApplication =============================================================
 
 type
@@ -13,6 +19,7 @@ type
     onResumed*: proc(this: ptr JUCEApplication) {.cdecl.}
 
 proc newJUCEApplication*(): ptr JUCEApplication {.importcpp: "(new june::JUCEApplication)".}
+proc constructJUCEApplication*(): JUCEApplication {.importcpp: "june::JUCEApplication()".}
 
 proc quit*(this: var JUCEApplicationBase) {.header: juce_gui_basics, importcpp: "juce::JUCEApplication::quit()".}
 proc getCommandLineParameterArray*(this: var JUCEApplicationBase): StringArray {.header: juce_gui_basics, importcpp: "juce::JUCEApplication::getCommandLineParameterArray()".}

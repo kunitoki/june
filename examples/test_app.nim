@@ -1,7 +1,6 @@
-
 import june
 
-{.emit: "/*TYPESECTION*/ #include <june.h>".}
+{.emit: """/*TYPESECTION*/ #include <june.h>""".}
 
 var window {.global.}: ptr DocumentWindow = nil
 
@@ -11,8 +10,8 @@ proc onGetApplicationVersion(this: ptr JUCEApplication): String {.cdecl.} = "0.1
 proc onInitialise(this: ptr JUCEApplication, commandLine: String) {.cdecl.} =
     echo "Starting JUNE App " & commandLine
 
-    window = newDocumentWindow("JUNE App", makeColour(255'u8, 0'u8, 0'u8, 255'u8), DocumentWindow_allButtons, true)
-    window[].onCloseButtonPressed = (proc(this: ptr DocumentWindow) {.cdecl.} = JUCEApplication_getInstance().systemRequestedQuit())
+    window = newDocumentWindow("JUNE App", makeColour(50'u8, 62'u8, 68'u8, 255'u8), DocumentWindow_allButtons, true)
+    window[].onCloseButtonPressed = proc(this: ptr DocumentWindow) {.cdecl.} = JUCEApplication_getInstance().systemRequestedQuit()
     window[].setResizable(true, true)
     window[].centreWithSize(640, 480)
     window[].setVisible(true)

@@ -1,4 +1,9 @@
-# Package
+# June - Copyright (c) 2022 Lucio Asnaghi, Gavin Ray
+#
+# Licensed and distributed under the
+#   MIT license (license terms in the root directory or at http://opensource.org/licenses/MIT).
+#
+# This file may not be copied, modified, or distributed except according to those terms.
 
 version       = "0.0.1"
 author        = "kunitoki"
@@ -6,7 +11,6 @@ description   = "Juce Bindings For Nim"
 license       = "MIT"
 srcDir        = "sources"
 
-# tests
 task test, "Runs the test suite":
   exec "nim cpp -r tests/test_juce_core.nim"
   exec "nim cpp -r tests/test_juce_events.nim"

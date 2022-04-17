@@ -1,15 +1,13 @@
-# ==============================================================================
+# =============================================================================================
 #
-#  This file is part of the june project.
-#  Copyright (c) 2021 - kunitoki
+# June - Copyright (c) 2022 Lucio Asnaghi, Gavin Ray
 #
-#  You may use this code under the terms of the MIT (see www.gnu.org/licenses).
+# Licensed and distributed under the
+#   MIT license (license terms in the root directory or at http://opensource.org/licenses/MIT).
 #
-#  JUNE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-#  EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE,
-#  ARE DISCLAIMED.
+# This file may not be copied, modified, or distributed except according to those terms.
 #
-# ==============================================================================
+# =============================================================================================
 
 cmake_minimum_required(VERSION 3.12)
 

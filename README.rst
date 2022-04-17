@@ -1,6 +1,9 @@
 ====
-june
+JUNE
 ====
+
+JUNE is a Nim binding of the JUCE framework, allowing fast prototyping JUCE applications in your favourite
+compiled programming language.
 
 -----------------
 Build From Source

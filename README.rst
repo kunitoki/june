@@ -1,6 +1,6 @@
-====
-JUNE
-====
+.. image:: https://github.com/kunitoki/june/raw/master/logo.png
+    :alt: june
+    :target: https://github.com/kunitoki/june
 
 JUNE is a Nim binding of the JUCE framework, allowing fast prototyping JUCE applications in your favourite
 compiled programming language.

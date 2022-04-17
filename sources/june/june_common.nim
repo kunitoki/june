@@ -30,7 +30,7 @@ proc newEmitPragma(s: string): NimNode {.compileTime.} =
 
 
 proc juneClassCodegen(class: NimNode, body: NimNode, appendType: string = ""): NimNode {.compileTime.} =
-    #echo class.astGenRepr
+    # echo body.astGenRepr
 
     if class.kind != nnkInfix or not eqIdent(class[0], "of"):
         error "Invalid node: " & class.lispRepr
@@ -39,13 +39,13 @@ proc juneClassCodegen(class: NimNode, body: NimNode, appendType: string = ""): N
     let parentClassName = class[2].strVal
 
     # Nim codegen list of functions
-    var nimFunctionsDecl = nnkRecList.newTree()
+    var nimObjectBodyDecl = nnkRecList.newTree()
 
     # Cpp codegen headers and class
     var cppIncludeDefinition = ""
     var cppClassDefinition = ""
     cppClassDefinition &= "namespace june {\n\n"
-    cppClassDefinition &= "class " & className & " : public " & parentClassName & " {\n"
+    cppClassDefinition &= "struct " & className & " : " & parentClassName & " {\n"
 
     for node in body.children:
         # echo node.kind
@@ -116,7 +116,7 @@ proc juneClassCodegen(class: NimNode, body: NimNode, appendType: string = ""): N
                     cppFuncSignature &= ", "
 
             # Nim codegen function declaration
-            nimFunctionsDecl.add nnkIdentDefs.newTree(
+            nimObjectBodyDecl.add nnkIdentDefs.newTree(
                 nnkPostfix.newTree(
                     newIdentNode("*"),
                     newIdentNode(funcPointerName)
@@ -142,11 +142,57 @@ proc juneClassCodegen(class: NimNode, body: NimNode, appendType: string = ""): N
             cppClassDefinition &= cppFuncPointerSignature & "\n"
             cppClassDefinition &= cppFuncSignature & "\n\n"
 
+        of nnkCall:
+            let variableName = $node[0]
+
+            var variableTypeNode = newEmptyNode()
+            var variableDefaultNode = newEmptyNode()
+
+            var variableType: string
+            var variableDefault: string
+            if node[1][0].kind == nnkPtrTy:
+                variableType = $node[1][0][0] & "*"
+                variableDefault = " = nullptr"
+                variableTypeNode = node[1][0]
+                variableDefaultNode = newNilLit()
+
+            elif node[1][0].kind == nnkAsgn:
+              if node[1][0][0].kind == nnkPtrTy:
+                  variableType = $node[1][0][0][0] & "*"
+                  variableDefault = " = nullptr"
+                  variableTypeNode = node[1][0][0]
+                  variableDefaultNode = newNilLit()
+              else:
+                  variableType = $node[1][0][0]
+                  variableDefault = " = " & $node[1][0][1]
+                  variableTypeNode = node[1][0][1]
+                  variableDefaultNode = node[1][0][1]
+
+            else:
+                variableType = $node[1][0]
+                variableTypeNode = node[1][0]
+
+            # Nim codegen member variable
+            nimObjectBodyDecl.add nnkIdentDefs.newTree(
+                nnkPostfix.newTree(
+                    newIdentNode("*"),
+                    node[0]
+                ),
+                variableTypeNode,
+                newEmptyNode() # variableDefaultNode
+            )
+
+            # Cpp codegen member variable
+            cppClassDefinition &= "    " & variableType & " " & variableName & variableDefault & ";\n"
+
         of nnkIncludeStmt:
             cppIncludeDefinition &= "#include \"" & $node[0] & "\"\n\n"
 
-        else:
+        of nnkDiscardStmt:
             continue
+
+        else:
+            error "Invalid nodes: " & body.lispRepr
 
     cppClassDefinition &= "};\n\n"
     cppClassDefinition &= "} // namespace june\n"
@@ -176,13 +222,13 @@ proc juneClassCodegen(class: NimNode, body: NimNode, appendType: string = ""): N
                 nnkOfInherit.newTree(
                     newIdentNode(parentClassName & appendType)
                 ),
-                nimFunctionsDecl
+                nimObjectBodyDecl
             )
         )
     )
 
     result.add typeSection
-    #echo result.repr
+    echo result.repr
 
 
 macro defineCppClassInternal*(class: untyped, body: untyped) =

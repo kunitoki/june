@@ -31,10 +31,10 @@ proc makeRange*[T](): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>
 proc makeRange*[T](startValue: T, endValue: T): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>(@)", constructor.}
 proc makeRange*[T](other: Range[T]): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>(@)", constructor.}
 
-proc Range_between*[T](position1: T, position2: T): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>::between(@)".}
-proc Range_withStartAndLength*[T](startValue: T, length: T): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>::withStartAndLength(@)".}
-proc Range_emptyRange*[T](start: T): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>::emptyRange(@)".}
-proc Range_findMinAndMax*[T](values: ptr T, numValues: cint): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>::findMinAndMax(@)".}
+proc between*[T](this: typedesc[Range[T]], position1: T, position2: T): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>::between(@)".}
+proc withStartAndLength*[T](this: typedesc[Range[T]], startValue: T, length: T): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>::withStartAndLength(@)".}
+proc emptyRange*[T](this: typedesc[Range[T]], start: T): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>::emptyRange(@)".}
+proc findMinAndMax*[T](this: typedesc[Range[T]], values: ptr T, numValues: cint): Range[T] {.header: juce_core, importcpp: "juce::Range<'*0>::findMinAndMax(@)".}
 
 proc getStart*[T](this: Range[T]): T {.header: juce_core, importcpp: "#.getStart(@)".}
 proc getLength*[T](this: Range[T]): T {.header: juce_core, importcpp: "#.getLength(@)".}

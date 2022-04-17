@@ -1,4 +1,4 @@
-.. image:: https://github.com/kunitoki/june/raw/master/logo.png
+.. image:: https://github.com/kunitoki/june/raw/main/logo.png
     :alt: june
     :target: https://github.com/kunitoki/june
 

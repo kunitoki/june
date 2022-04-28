@@ -78,5 +78,5 @@ A simple example application (subject to changes):
 
 Will look like this:
 
-.. image:: https://github.com/kunitoki/june/raw/master/assets/example_app.png
+.. image:: https://github.com/kunitoki/june/blob/main/assets/example_app.png?raw=true
     :target: https://github.com/kunitoki/june/blob/main/examples/test_app.nim

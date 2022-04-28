@@ -6,12 +6,18 @@
 # This file may not be copied, modified, or distributed except according to those terms.
 
 import system
+import std/os
+import std/compilesettings
 
-{.emit: """/*TYPESECTION*/
-#include <june.h>
-""".}
+when not defined(cpp):
+  {.error: "C++ backend required to use nimpp".}
+
+const june_header = "<june.h>"
+const june_cache_dir = querySetting(SingleValueSetting.nimcacheDir)
 
 include june/june_common
+include june/june_function_utils
+include june/june_cpp_utils
 include june/juce_core
 include june/juce_events
 include june/juce_data_structures
@@ -19,9 +25,9 @@ include june/juce_graphics
 include june/juce_gui_basics
 
 
-proc initialiseJune() {.header:"<june.h>", importcpp: "june::initialiseJune()".}
-proc initialiseApplication(application: ptr JUCEApplication): bool {.header:"<june.h>", importcpp: "june::initialiseApplication(@)".}
-proc shutdownApplication(application: ptr JUCEApplication): int {.header:"<june.h>", importcpp: "june::shutdownApplication(@)".}
+proc initialiseJune() {.header: june_header, importcpp: "june::initialiseJune()".}
+proc initialiseApplication(application: ptr JUCEApplication): bool {.header: june_header, importcpp: "june::initialiseApplication(@)".}
+proc shutdownApplication(application: ptr JUCEApplication): int {.header: june_header, importcpp: "june::shutdownApplication(@)".}
 
 
 var messageManager: ptr MessageManager = nil
@@ -47,7 +53,7 @@ proc START_JUCE_APPLICATION*(createApplication: (proc(): ptr JUCEApplication)) =
     var result = QuitSuccess
     var application: ptr JUCEApplication = nil
 
-    messageManager = MessageManager_getInstance()
+    messageManager = MessageManager.getInstance()
     messageManager[].setCurrentThreadAsMessageThread()
 
     setControlCHook(ctrlc)

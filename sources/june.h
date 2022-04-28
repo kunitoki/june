@@ -9,108 +9,19 @@
 
 #pragma once
 
+#include <exception>
+#include <functional>
+#include <type_traits>
+
 #include <juce_gui_basics/juce_gui_basics.h>
 
-#include <exception>
+// JUCE Section ===================================================================================
 
 #if JUCE_MAC
 namespace juce { extern void initialiseNSApplication(); }
 #endif
 
 namespace june {
-
-class JUCEApplication : public juce::JUCEApplication
-{
-public:
-    JUCEApplication() = default;
-    ~JUCEApplication() = default;
-
-    juce::String (*onGetApplicationName)(JUCEApplication*) = nullptr;
-    const juce::String getApplicationName() override
-    {
-        if (onGetApplicationName == nullptr)
-            throw std::runtime_error("Must override onGetApplicationName");
-
-        return onGetApplicationName(this);
-    }
-
-    juce::String (*onGetApplicationVersion)(JUCEApplication*) = nullptr;
-    const juce::String getApplicationVersion() override
-    {
-        if (onGetApplicationVersion == nullptr)
-            throw std::runtime_error("Must override onGetApplicationVersion");
-
-        return onGetApplicationVersion(this);
-    }
-
-    bool (*onMoreThanOneInstanceAllowed)(JUCEApplication*) = nullptr;
-    bool moreThanOneInstanceAllowed() override
-    {
-        return onMoreThanOneInstanceAllowed != nullptr
-            ? onMoreThanOneInstanceAllowed(this)
-            : true;
-    }
-
-    void (*onAnotherInstanceStarted)(JUCEApplication*, juce::String) = nullptr;
-    void anotherInstanceStarted(const juce::String& commandLine) override
-    {
-        if (onAnotherInstanceStarted)
-            onAnotherInstanceStarted(this, commandLine);
-    }
-
-    void (*onInitialise)(JUCEApplication*, juce::String) = nullptr;
-    void initialise(const juce::String& commandLine) override
-    {
-        if (onInitialise)
-            onInitialise(this, commandLine);
-    }
-
-    void (*onShutdown)(JUCEApplication*) = nullptr;
-    void shutdown() override
-    {
-        if (onShutdown)
-            onShutdown(this);
-    }
-
-    void (*onSystemRequestedQuit)(JUCEApplication*) = nullptr;
-    void systemRequestedQuit() override
-    {
-        if (onSystemRequestedQuit)
-            onSystemRequestedQuit(this);
-    }
-
-    void (*onSuspended)(JUCEApplication*) = nullptr;
-    void suspended() override
-    {
-        if (onSuspended)
-            onSuspended(this);
-    }
-
-    void (*onResumed)(JUCEApplication*) = nullptr;
-    void resumed() override
-    {
-        if (onResumed)
-            onResumed(this);
-    }
-
-    void unhandledException(const std::exception* e, const juce::String& sourceFilename, int lineNumber) override
-    {
-        throw *e;
-    }
-};
-
-class DocumentWindow : public juce::DocumentWindow
-{
-public:
-    using juce::DocumentWindow::DocumentWindow;
-
-    void (*onCloseButtonPressed)(DocumentWindow*) = nullptr;
-    void closeButtonPressed() override
-    {
-        if (onCloseButtonPressed)
-            onCloseButtonPressed(this);
-    }
-};
 
 inline juce::JUCEApplicationBase* createJuceApplicationEmptyInstance() { return nullptr; }
 
@@ -123,14 +34,114 @@ inline void initialiseJune()
 #endif
 }
 
-inline bool initialiseApplication(JUCEApplication* application)
+inline bool initialiseApplication(juce::JUCEApplication* application)
 {
     return static_cast<juce::JUCEApplicationBase*>(application)->initialiseApp();
 }
 
-inline int shutdownApplication(JUCEApplication* application)
+inline int shutdownApplication(juce::JUCEApplication* application)
 {
     return static_cast<juce::JUCEApplicationBase*>(application)->shutdownApp();
+}
+
+// Utils Section ===================================================================================
+
+namespace detail {
+
+template <class, class...>
+struct closure_traits;
+
+template <class, class, class>
+struct closure_traits_concat {};
+
+template <class R, class Arg>
+struct closure_traits<R, Arg>
+{
+    using type = std::function<R()>;
+
+    template <class F, class E>
+    static type map(F func, E env) noexcept(noexcept((*std::declval<F>())(std::declval<E>())))
+    {
+        if constexpr (std::is_void_v<R>)
+            return [func, env] { (*func)(env); };
+        else
+            return [func, env] { return (*func)(env); };
+    };
+};
+
+template <class R, class... Args1, class... Args2>
+struct closure_traits_concat<R, std::function<R(Args1...)>, std::function<R(Args2...)>>
+{
+    using type = std::function<R(Args1..., Args2...)>;
+
+    template <class F, class E>
+    static type map(F func, E env) noexcept(noexcept((*std::declval<F>())(std::declval<Args1>()..., std::declval<Args2>()..., std::declval<E>())))
+    {
+        if constexpr (std::is_void_v<R>)
+            return [func, env](Args1... args1, Args2... args2) { (*func)(args1..., args2..., env); };
+        else
+            return [func, env](Args1... args1, Args2... args2) { return (*func)(args1..., args2..., env); };
+    };
+};
+
+template <class R, class Arg, class... Args>
+struct closure_traits<R, Arg, Args...>
+{
+    using type = typename closure_traits_concat<R,
+        std::function<R(Arg)>, typename closure_traits<R, Args...>::type>::type;
+
+    template <class F, class E>
+    static type map(F func, E env) noexcept(noexcept(closure_traits_concat<R,
+            std::function<R(Arg)>, typename closure_traits<R, Args...>::type>::map(std::declval<F>(), std::declval<E>())))
+    {
+        return closure_traits_concat<R,
+            std::function<R(Arg)>, typename closure_traits<R, Args...>::type>::map(func, env);
+    };
+};
+
+template <class R, class... Args>
+struct function_traits_base
+{
+    template <class F, class E>
+    static auto map(F func, E env) noexcept(noexcept(closure_traits<R, Args...>::map(std::declval<F>(), std::declval<E>())))
+    {
+        return closure_traits<R, Args...>::map(func, env);
+    };
+};
+
+template <class...>
+struct function_traits_impl;
+
+template <class R, class... Args>
+struct function_traits_impl<R(Args...)> : function_traits_base<R, Args...> {};
+
+template <class R, class... Args>
+struct function_traits_impl<R (*)(Args...)> : function_traits_base<R, Args...> {};
+
+template <class C, class R, class... Args>
+struct function_traits_impl<R (C::*)(Args...)> : function_traits_base<R, Args...> {};
+
+template <class C, class R, class... Args>
+struct function_traits_impl<R (C::*)(Args...) const> : function_traits_base<R, Args...> {};
+
+template <class R, class... Args>
+struct function_traits_impl<R(Args...) noexcept> : function_traits_base<R, Args...> {};
+
+template <class R, class... Args>
+struct function_traits_impl<R (*)(Args...) noexcept> : function_traits_base<R, Args...> {};
+
+template <class C, class R, class... Args>
+struct function_traits_impl<R (C::*)(Args...) noexcept> : function_traits_base<R, Args...> {};
+
+} // namespace detail
+
+template <class F>
+struct function_traits : detail::function_traits_impl<F> {};
+
+template <class F>
+auto bind(F func, void* env) noexcept(noexcept(function_traits<F>::map(std::declval<F>(), std::declval<void*>())))
+{
+    return function_traits<F>::map(func, env);
 }
 
 } // namespace june

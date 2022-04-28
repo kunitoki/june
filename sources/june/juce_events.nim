@@ -58,21 +58,21 @@ type
 type
   JUCEApplicationBase* {.header: juce_events, importcpp: "juce::JUCEApplicationBase", inheritable.} = object
 
-proc getApplicationName*(this: var JUCEApplicationBase): int {.header: juce_events, importcpp: "#.getApplicationName()".}
-proc getApplicationVersion*(this: var JUCEApplicationBase): int {.header: juce_events, importcpp: "#.getApplicationVersion()".}
+proc getApplicationName*(this: var JUCEApplicationBase): String {.header: juce_events, importcpp: "#.getApplicationName()".}
+proc getApplicationVersion*(this: var JUCEApplicationBase): String {.header: juce_events, importcpp: "#.getApplicationVersion()".}
 proc moreThanOneInstanceAllowed*(this: var JUCEApplicationBase): bool {.header: juce_events, importcpp: "#.moreThanOneInstanceAllowed()".}
-proc initialise*(this: var JUCEApplicationBase, commandLineParameters: int) {.header: juce_events, importcpp: "#.initialise(@)".}
+proc initialise*(this: var JUCEApplicationBase, commandLineParameters: String) {.header: juce_events, importcpp: "#.initialise(@)".}
 proc shutdown*(this: var JUCEApplicationBase) {.header: juce_events, importcpp: "#.shutdown()".}
-proc anotherInstanceStarted*(this: var JUCEApplicationBase, commandLine: int) {.header: juce_events, importcpp: "#.anotherInstanceStarted(@)".}
+proc anotherInstanceStarted*(this: var JUCEApplicationBase, commandLine: String) {.header: juce_events, importcpp: "#.anotherInstanceStarted(@)".}
 proc systemRequestedQuit*(this: var JUCEApplicationBase) {.header: juce_events, importcpp: "#.systemRequestedQuit()".}
 proc suspended*(this: var JUCEApplicationBase) {.header: juce_events, importcpp: "#.suspended()".}
 proc resumed*(this: var JUCEApplicationBase) {.header: juce_events, importcpp: "#.resumed()".}
-proc unhandledException*(this: var JUCEApplicationBase, arg1: ptr int, sourceFilename: int, lineNumber: int) {.header: juce_events, importcpp: "#.unhandledException(@)".}
+proc unhandledException*(this: var JUCEApplicationBase, arg1: ptr int, sourceFilename: String, lineNumber: int) {.header: juce_events, importcpp: "#.unhandledException(@)".}
 proc memoryWarningReceived*(this: var JUCEApplicationBase) {.header: juce_events, importcpp: "#.memoryWarningReceived()".}
 proc backButtonPressed*(this: var JUCEApplicationBase): bool {.header: juce_events, importcpp: "#.backButtonPressed()".}
 proc setApplicationReturnValue*(this: var JUCEApplicationBase, newReturnValue: int) {.header: juce_events, importcpp: "#.setApplicationReturnValue(@)".}
-proc getApplicationReturnValue*(this: JUCEApplicationBase): int {.header: juce_events, importcpp: "#.getApplicationReturnValue()".}
-proc isInitialising*(this: JUCEApplicationBase): bool {.header: juce_events, importcpp: "#.isInitialising()".}
+proc getApplicationReturnValue*(this: var JUCEApplicationBase): int {.header: juce_events, importcpp: "#.getApplicationReturnValue()".}
+proc isInitialising*(this: var JUCEApplicationBase): bool {.header: juce_events, importcpp: "#.isInitialising()".}
 proc initialiseApp*(this: var JUCEApplicationBase): bool {.header: juce_events, importcpp: "#.initialiseApp()".}
 proc shutdownApp*(this: var JUCEApplicationBase): int {.header: juce_events, importcpp: "#.shutdownApp()".}
 proc sendCommandLineToPreexistingInstance*(this: var JUCEApplicationBase): bool {.header: juce_events, importcpp: "#.sendCommandLineToPreexistingInstance()".}

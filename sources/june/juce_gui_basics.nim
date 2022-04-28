@@ -57,30 +57,30 @@ type
 
 
 type
-  AlertWindow* {.header: juce_gui_basics, importcpp: "juce::AlertWindow".} = object
+  AlertWindow* {.header: juce_gui_basics, importcpp: "juce::AlertWindow".} = object of TopLevelWindow
   AlertWindowLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::AlertWindow::LookAndFeelMethods".} = object
 
 
 type
-  ScrollBar* {.header: juce_gui_basics, importcpp: "juce::ScrollBar".} = object
+  ScrollBar* {.header: juce_gui_basics, importcpp: "juce::ScrollBar".} = object of Component
   ScrollBarListener* {.header: juce_gui_basics, importcpp: "juce::ScrollBar::Listener".} = object
   ScrollBarLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::ScrollBar::LookAndFeelMethods".} = object
 
 
 type
-  ComboBox* {.header: juce_gui_basics, importcpp: "juce::ComboBox".} = object
+  ComboBox* {.header: juce_gui_basics, importcpp: "juce::ComboBox".} = object of Component
   ComboBoxListener* {.header: juce_gui_basics, importcpp: "juce::ComboBox::Listener".} = object
   ComboBoxLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::ComboBox::LookAndFeelMethods".} = object
 
 
 type
-  Button* {.header: juce_gui_basics, importcpp: "juce::Button".} = object
+  Button* {.header: juce_gui_basics, importcpp: "juce::Button".} = object of Component
   ButtonListener* {.header: juce_gui_basics, importcpp: "juce::Button::Listener".} = object
   ButtonLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::Button::LookAndFeelMethods".} = object
 
 
 type
-  FilenameComponent* {.header: juce_gui_basics, importcpp: "juce::FilenameComponent".} = object
+  FilenameComponent* {.header: juce_gui_basics, importcpp: "juce::FilenameComponent".} = object of Component
   FilenameComponentLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::FilenameComponent::LookAndFeelMethods".} = object
 
 
@@ -90,24 +90,24 @@ type
 
 
 type
-  MenuBarComponent* {.header: juce_gui_basics, importcpp: "juce::MenuBarComponent".} = object
+  MenuBarComponent* {.header: juce_gui_basics, importcpp: "juce::MenuBarComponent".} = object of Component
 
 
 type
-  TableHeaderComponent* {.header: juce_gui_basics, importcpp: "juce::TableHeaderComponent".} = object
+  TableHeaderComponent* {.header: juce_gui_basics, importcpp: "juce::TableHeaderComponent".} = object of Component
   TableHeaderComponentListener* {.header: juce_gui_basics, importcpp: "juce::TableHeaderComponent::Listener".} = object
   TableHeaderComponentLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::TableHeaderComponent::LookAndFeelMethods".} = object
   TableHeaderComponentColumnInfo* {.header: juce_gui_basics, importcpp: "juce::TableHeaderComponent::ColumnInfo".} = object
 
 
 type
-  Toolbar* {.header: juce_gui_basics, importcpp: "juce::Toolbar".} = object
+  Toolbar* {.header: juce_gui_basics, importcpp: "juce::Toolbar".} = object of Component
   ToolbarLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::Toolbar::LookAndFeelMethods".} = object
 
 
 type
   PopupMenu* {.header: juce_gui_basics, importcpp: "juce::PopupMenu".} = object
-  PopupMenuCustomComponent* {.header: juce_gui_basics, importcpp: "juce::PopupMenu::CustomComponent".} = object
+  PopupMenuCustomComponent* {.header: juce_gui_basics, importcpp: "juce::PopupMenu::CustomComponent".} = object of Component
   PopupMenuCustomCallback* {.header: juce_gui_basics, importcpp: "juce::PopupMenu::CustomCallback".} = object
   PopupMenuItem* {.header: juce_gui_basics, importcpp: "juce::PopupMenu::Item".} = object
   PopupMenuOptions* {.header: juce_gui_basics, importcpp: "juce::PopupMenu::Options".} = object
@@ -118,12 +118,12 @@ type
 
 
 type
-  ProgressBar* {.header: juce_gui_basics, importcpp: "juce::ProgressBar".} = object
+  ProgressBar* {.header: juce_gui_basics, importcpp: "juce::ProgressBar".} = object of Component
   ProgressBarLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::ProgressBar::LookAndFeelMethods".} = object
 
 
 type
-  FileBrowserComponent* {.header: juce_gui_basics, importcpp: "juce::FileBrowserComponent".} = object
+  FileBrowserComponent* {.header: juce_gui_basics, importcpp: "juce::FileBrowserComponent".} = object of Component
   FileBrowserComponentLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::FileBrowserComponent::LookAndFeelMethods".} = object
 
 
@@ -132,28 +132,32 @@ type
 
 
 type
-  FilePreviewComponent* {.header: juce_gui_basics, importcpp: "juce::FilePreviewComponent".} = object
+  FilePreviewComponent* {.header: juce_gui_basics, importcpp: "juce::FilePreviewComponent".} = object of Component
 
 
 type
-  CallOutBox* {.header: juce_gui_basics, importcpp: "juce::CallOutBox".} = object
+  CallOutBox* {.header: juce_gui_basics, importcpp: "juce::CallOutBox".} = object of Component
   CallOutBoxLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::CallOutBox::LookAndFeelMethods".} = object
 
 
 type
-  Drawable* {.header: juce_gui_basics, importcpp: "juce::Drawable".} = object
+  Drawable* {.header: juce_gui_basics, importcpp: "juce::Drawable".} = object of Component
 
 
 type
-  DrawablePath* {.header: juce_gui_basics, importcpp: "juce::DrawablePath".} = object
+  DrawableShape* {.header: juce_gui_basics, importcpp: "juce::DrawableShape".} = object of Drawable
 
 
 type
-  DrawableComposite* {.header: juce_gui_basics, importcpp: "juce::DrawableComposite".} = object
+  DrawablePath* {.header: juce_gui_basics, importcpp: "juce::DrawablePath".} = object of DrawableShape
 
 
 type
-  CaretComponent* {.header: juce_gui_basics, importcpp: "juce::CaretComponent".} = object
+  DrawableComposite* {.header: juce_gui_basics, importcpp: "juce::DrawableComposite".} = object of Drawable
+
+
+type
+  CaretComponent* {.header: juce_gui_basics, importcpp: "juce::CaretComponent".} = object of Component
 
 
 type
@@ -167,7 +171,7 @@ type
 
 
 type
-  DrawableButton* {.header: juce_gui_basics, importcpp: "juce::DrawableButton".} = object
+  DrawableButton* {.header: juce_gui_basics, importcpp: "juce::DrawableButton".} = object of Button
 
 
 type
@@ -856,7 +860,7 @@ proc setJustificationType*(this: var HyperlinkButton, justification: int) {.head
 proc getJustificationType*(this: HyperlinkButton): int {.header: juce_gui_basics, importcpp: "#.getJustificationType()".}
 
 type
-  ImageButton* {.header: juce_gui_basics, importcpp: "juce::ImageButton".} = object
+  ImageButton* {.header: juce_gui_basics, importcpp: "juce::ImageButton".} = object of Button
   ImageButtonLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::ImageButton::LookAndFeelMethods".} = object
 
 proc setImages*(this: var ImageButton, resizeButtonNowToFitThisImage: bool, rescaleImagesWhenButtonSizeChanges: bool, preserveImageProportions: bool, normalImage: int, imageOpacityWhenNormal: float, overlayColourWhenNormal: int, overImage: int, imageOpacityWhenOver: float, overlayColourWhenOver: int, downImage: int, imageOpacityWhenDown: float, overlayColourWhenDown: int, hitTestAlphaThreshold: float = 0.0f) {.header: juce_gui_basics, importcpp: "#.setImages(@)".}
@@ -865,7 +869,7 @@ proc getOverImage*(this: ImageButton): int {.header: juce_gui_basics, importcpp:
 proc getDownImage*(this: ImageButton): int {.header: juce_gui_basics, importcpp: "#.getDownImage()".}
 
 type
-  ShapeButton* {.header: juce_gui_basics, importcpp: "juce::ShapeButton".} = object
+  ShapeButton* {.header: juce_gui_basics, importcpp: "juce::ShapeButton".} = object of Button
 
 proc setShape*(this: var ShapeButton, newShape: int, resizeNowToFitThisShape: bool, maintainShapeProportions: bool, hasDropShadow: bool) {.header: juce_gui_basics, importcpp: "#.setShape(@)".}
 proc setColours*(this: var ShapeButton, normalColour: int, overColour: int, downColour: int) {.header: juce_gui_basics, importcpp: "#.setColours(@)".}
@@ -912,7 +916,7 @@ proc componentBeingDeleted*(this: var ComponentMovementWatcher, arg1: var Compon
 proc componentVisibilityChanged*(this: var ComponentMovementWatcher, arg1: var Component) {.header: juce_gui_basics, importcpp: "#.componentVisibilityChanged(@)".}
 
 type
-  ConcertinaPanel* {.header: juce_gui_basics, importcpp: "juce::ConcertinaPanel".} = object
+  ConcertinaPanel* {.header: juce_gui_basics, importcpp: "juce::ConcertinaPanel".} = object of Component
   ConcertinaPanelLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::ConcertinaPanel::LookAndFeelMethods".} = object
 
 proc addPanel*(this: var ConcertinaPanel, insertIndex: int, component: ptr Component, takeOwnership: bool) {.header: juce_gui_basics, importcpp: "#.addPanel(@)".}
@@ -926,7 +930,7 @@ proc setPanelHeaderSize*(this: var ConcertinaPanel, panelComponent: ptr Componen
 proc setCustomPanelHeader*(this: var ConcertinaPanel, panelComponent: ptr Component, customHeaderComponent: ptr Component, takeOwnership: bool) {.header: juce_gui_basics, importcpp: "#.setCustomPanelHeader(@)".}
 
 type
-  GroupComponent* {.header: juce_gui_basics, importcpp: "juce::GroupComponent".} = object
+  GroupComponent* {.header: juce_gui_basics, importcpp: "juce::GroupComponent".} = object of Component
   GroupComponentLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::GroupComponent::LookAndFeelMethods".} = object
 
 proc setText*(this: var GroupComponent, newText: int) {.header: juce_gui_basics, importcpp: "#.setText(@)".}
@@ -938,7 +942,7 @@ proc enablementChanged*(this: var GroupComponent) {.header: juce_gui_basics, imp
 proc colourChanged*(this: var GroupComponent) {.header: juce_gui_basics, importcpp: "#.colourChanged()".}
 
 type
-  ResizableBorderComponent* {.header: juce_gui_basics, importcpp: "juce::ResizableBorderComponent".} = object
+  ResizableBorderComponent* {.header: juce_gui_basics, importcpp: "juce::ResizableBorderComponent".} = object of Component
   ResizableBorderComponentZone* {.header: juce_gui_basics, importcpp: "juce::ResizableBorderComponent::Zone".} = object
 
 proc setBorderThickness*(this: var ResizableBorderComponent, newBorderSize: int) {.header: juce_gui_basics, importcpp: "#.setBorderThickness(@)".}
@@ -946,11 +950,11 @@ proc getBorderThickness*(this: ResizableBorderComponent): int {.header: juce_gui
 proc getCurrentZone*(this: ResizableBorderComponent): ResizableBorderComponentZone {.header: juce_gui_basics, importcpp: "#.getCurrentZone()".}
 
 type
-  ResizableCornerComponent* {.header: juce_gui_basics, importcpp: "juce::ResizableCornerComponent".} = object
+  ResizableCornerComponent* {.header: juce_gui_basics, importcpp: "juce::ResizableCornerComponent".} = object of Component
 
 
 type
-  ResizableEdgeComponent* {.header: juce_gui_basics, importcpp: "juce::ResizableEdgeComponent".} = object
+  ResizableEdgeComponent* {.header: juce_gui_basics, importcpp: "juce::ResizableEdgeComponent".} = object of Component
 
 proc isVertical*(this: ResizableEdgeComponent): bool {.header: juce_gui_basics, importcpp: "#.isVertical()".}
 
@@ -1001,7 +1005,7 @@ proc getItemCurrentRelativeSize*(this: StretchableLayoutManager, itemIndex: int)
 proc setItemPosition*(this: var StretchableLayoutManager, itemIndex: int, newPosition: int) {.header: juce_gui_basics, importcpp: "#.setItemPosition(@)".}
 
 type
-  StretchableLayoutResizerBar* {.header: juce_gui_basics, importcpp: "juce::StretchableLayoutResizerBar".} = object
+  StretchableLayoutResizerBar* {.header: juce_gui_basics, importcpp: "juce::StretchableLayoutResizerBar".} = object of Component
   StretchableLayoutResizerBarLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::StretchableLayoutResizerBar::LookAndFeelMethods".} = object
 
 proc hasBeenMoved*(this: var StretchableLayoutResizerBar) {.header: juce_gui_basics, importcpp: "#.hasBeenMoved()".}
@@ -1018,13 +1022,13 @@ proc getNumItems*(this: StretchableObjectResizer): int {.header: juce_gui_basics
 proc getItemSize*(this: StretchableObjectResizer, index: int): float64 {.header: juce_gui_basics, importcpp: "#.getItemSize(@)".}
 
 type
-  TabbedButtonBar* {.header: juce_gui_basics, importcpp: "juce::TabbedButtonBar".} = object
+  TabbedButtonBar* {.header: juce_gui_basics, importcpp: "juce::TabbedButtonBar".} = object of Component
   TabbedButtonBarLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::TabbedButtonBar::LookAndFeelMethods".} = object
   TabbedButtonBarTabInfo* {.header: juce_gui_basics, importcpp: "juce::TabbedButtonBar::TabInfo".} = object
 
 
 type
-  TabBarButton* {.header: juce_gui_basics, importcpp: "juce::TabBarButton".} = object
+  TabBarButton* {.header: juce_gui_basics, importcpp: "juce::TabBarButton".} = object of Button
 
 proc getTabbedButtonBar*(this: TabBarButton): var TabbedButtonBar {.header: juce_gui_basics, importcpp: "#.getTabbedButtonBar()".}
 # proc setExtraComponent*(this: var TabBarButton, extraTabComponent: ptr Component, extraComponentPlacement: juce::TabBarButton::ExtraComponentPlacement) {.header: juce_gui_basics, importcpp: "#.setExtraComponent(@)".}
@@ -1069,7 +1073,7 @@ proc resized*(this: var TabbedButtonBar) {.header: juce_gui_basics, importcpp: "
 proc lookAndFeelChanged*(this: var TabbedButtonBar) {.header: juce_gui_basics, importcpp: "#.lookAndFeelChanged()".}
 
 type
-  TabbedComponent* {.header: juce_gui_basics, importcpp: "juce::TabbedComponent".} = object
+  TabbedComponent* {.header: juce_gui_basics, importcpp: "juce::TabbedComponent".} = object of Component
 
 # proc setOrientation*(this: var TabbedComponent, orientation: TabbedButtonBar::Orientation) {.header: juce_gui_basics, importcpp: "#.setOrientation(@)".}
 # proc getOrientation*(this: TabbedComponent): TabbedButtonBar::Orientation {.header: juce_gui_basics, importcpp: "#.getOrientation()".}
@@ -1099,7 +1103,7 @@ proc resized*(this: var TabbedComponent) {.header: juce_gui_basics, importcpp: "
 proc lookAndFeelChanged*(this: var TabbedComponent) {.header: juce_gui_basics, importcpp: "#.lookAndFeelChanged()".}
 
 type
-  Viewport* {.header: juce_gui_basics, importcpp: "juce::Viewport".} = object
+  Viewport* {.header: juce_gui_basics, importcpp: "juce::Viewport".} = object of Component
 
 proc setViewedComponent*(this: var Viewport, newViewedComponent: ptr Component, deleteComponentWhenNoLongerNeeded: bool = true) {.header: juce_gui_basics, importcpp: "#.setViewedComponent(@)".}
 proc getViewedComponent*(this: Viewport): ptr Component {.header: juce_gui_basics, importcpp: "#.getViewedComponent()".}
@@ -1317,9 +1321,6 @@ proc setClipPath*(this: var Drawable, drawableClipPath: int) {.header: juce_gui_
 proc getDrawableBounds*(this: Drawable): int {.header: juce_gui_basics, importcpp: "#.getDrawableBounds()".}
 proc replaceColour*(this: var Drawable, originalColour: int, replacementColour: int): bool {.header: juce_gui_basics, importcpp: "#.replaceColour(@)".}
 
-type
-  DrawableShape* {.header: juce_gui_basics, importcpp: "juce::DrawableShape".} = object
-
 proc setFill*(this: var DrawableShape, newFill: int) {.header: juce_gui_basics, importcpp: "#.setFill(@)".}
 proc getFill*(this: DrawableShape): int {.header: juce_gui_basics, importcpp: "#.getFill()".}
 proc setStrokeFill*(this: var DrawableShape, newStrokeFill: int) {.header: juce_gui_basics, importcpp: "#.setStrokeFill(@)".}
@@ -1350,7 +1351,7 @@ proc parentHierarchyChanged*(this: var DrawableComposite) {.header: juce_gui_bas
 proc getOutlineAsPath*(this: DrawableComposite): int {.header: juce_gui_basics, importcpp: "#.getOutlineAsPath()".}
 
 type
-  DrawableImage* {.header: juce_gui_basics, importcpp: "juce::DrawableImage".} = object
+  DrawableImage* {.header: juce_gui_basics, importcpp: "juce::DrawableImage".} = object of Drawable
 
 proc setImage*(this: var DrawableImage, imageToUse: int) {.header: juce_gui_basics, importcpp: "#.setImage(@)".}
 proc getImage*(this: DrawableImage): int {.header: juce_gui_basics, importcpp: "#.getImage()".}
@@ -1374,7 +1375,7 @@ proc getStrokePath*(this: DrawablePath): int {.header: juce_gui_basics, importcp
 proc createCopy*(this: DrawablePath): int {.header: juce_gui_basics, importcpp: "#.createCopy()".}
 
 type
-  DrawableRectangle* {.header: juce_gui_basics, importcpp: "juce::DrawableRectangle".} = object
+  DrawableRectangle* {.header: juce_gui_basics, importcpp: "juce::DrawableRectangle".} = object of DrawableShape
 
 proc setRectangle*(this: var DrawableRectangle, newBounds: int) {.header: juce_gui_basics, importcpp: "#.setRectangle(@)".}
 proc getRectangle*(this: DrawableRectangle): int {.header: juce_gui_basics, importcpp: "#.getRectangle()".}
@@ -1406,7 +1407,7 @@ proc getOutlineAsPath*(this: DrawableText): int {.header: juce_gui_basics, impor
 proc replaceColour*(this: var DrawableText, originalColour: int, replacementColour: int): bool {.header: juce_gui_basics, importcpp: "#.replaceColour(@)".}
 
 type
-  TextEditor* {.header: juce_gui_basics, importcpp: "juce::TextEditor".} = object
+  TextEditor* {.header: juce_gui_basics, importcpp: "juce::TextEditor".} = object of Component
   TextEditorListener* {.header: juce_gui_basics, importcpp: "juce::TextEditor::Listener".} = object
   TextEditorInputFilter* {.header: juce_gui_basics, importcpp: "juce::TextEditor::InputFilter".} = object
   TextEditorLengthAndCharacterRestriction* {.header: juce_gui_basics, importcpp: "juce::TextEditor::LengthAndCharacterRestriction".} = object
@@ -1518,7 +1519,7 @@ proc setTemporaryUnderlining*(this: var TextEditor, arg1: int) {.header: juce_gu
 # proc getKeyboardType*(this: var TextEditor): juce::TextInputTarget::VirtualKeyboardType {.header: juce_gui_basics, importcpp: "#.getKeyboardType()".}
 
 type
-  Label* {.header: juce_gui_basics, importcpp: "juce::Label".} = object
+  Label* {.header: juce_gui_basics, importcpp: "juce::Label".} = object of Component
   LabelListener* {.header: juce_gui_basics, importcpp: "juce::Label::Listener".} = object
   LabelLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::Label::LookAndFeelMethods".} = object
 
@@ -1605,7 +1606,7 @@ proc valueChanged*(this: var ComboBox, arg1: var int) {.header: juce_gui_basics,
 proc parentHierarchyChanged*(this: var ComboBox) {.header: juce_gui_basics, importcpp: "#.parentHierarchyChanged()".}
 
 type
-  ImageComponent* {.header: juce_gui_basics, importcpp: "juce::ImageComponent".} = object
+  ImageComponent* {.header: juce_gui_basics, importcpp: "juce::ImageComponent".} = object of Component
 
 proc setImage*(this: var ImageComponent, newImage: int) {.header: juce_gui_basics, importcpp: "#.setImage(@)".}
 proc setImage*(this: var ImageComponent, newImage: int, placementToUse: int) {.header: juce_gui_basics, importcpp: "#.setImage(@)".}
@@ -1632,7 +1633,7 @@ proc getTooltipForRow*(this: var ListBoxModel, row: int): int {.header: juce_gui
 proc getMouseCursorForRow*(this: var ListBoxModel, row: int): MouseCursor {.header: juce_gui_basics, importcpp: "#.getMouseCursorForRow(@)".}
 
 type
-  ListBox* {.header: juce_gui_basics, importcpp: "juce::ListBox".} = object
+  ListBox* {.header: juce_gui_basics, importcpp: "juce::ListBox".} = object of Component
 
 proc setModel*(this: var ListBox, newModel: ptr ListBoxModel) {.header: juce_gui_basics, importcpp: "#.setModel(@)".}
 proc getModel*(this: ListBox): ptr ListBoxModel {.header: juce_gui_basics, importcpp: "#.getModel()".}
@@ -1692,7 +1693,7 @@ proc setPercentageDisplay*(this: var ProgressBar, shouldDisplayPercentage: bool)
 proc setTextToDisplay*(this: var ProgressBar, text: int) {.header: juce_gui_basics, importcpp: "#.setTextToDisplay(@)".}
 
 type
-  Slider* {.header: juce_gui_basics, importcpp: "juce::Slider".} = object
+  Slider* {.header: juce_gui_basics, importcpp: "juce::Slider".} = object of Component
   SliderRotaryParameters* {.header: juce_gui_basics, importcpp: "juce::Slider::RotaryParameters".} = object
   SliderListener* {.header: juce_gui_basics, importcpp: "juce::Slider::Listener".} = object
   SliderSliderLayout* {.header: juce_gui_basics, importcpp: "juce::Slider::SliderLayout".} = object
@@ -2235,10 +2236,11 @@ proc parentHierarchyChanged*(this: var DocumentWindowImpl) {.header: juce_gui_ba
 proc getTitleBarArea*(this: var DocumentWindowImpl): int {.header: juce_gui_basics, importcpp: "#.getTitleBarArea()".}
 
 type
-  DialogWindow* {.header: juce_gui_basics, importcpp: "juce::DialogWindow".} = object
+  DialogWindow* {.header: juce_gui_basics, importcpp: "juce::DialogWindow".} = object of DocumentWindowImpl
   DialogWindowLaunchOptions* {.header: juce_gui_basics, importcpp: "juce::DialogWindow::LaunchOptions".} = object
 
 proc escapeKeyPressed*(this: var DialogWindow): bool {.header: juce_gui_basics, importcpp: "#.escapeKeyPressed()".}
+
 
 type
   NativeMessageBox* {.header: juce_gui_basics, importcpp: "juce::NativeMessageBox".} = object
@@ -2254,7 +2256,7 @@ proc getAlertWindow*(this: ThreadWithProgressWindow): ptr AlertWindow {.header: 
 proc threadComplete*(this: var ThreadWithProgressWindow, userPressedCancel: bool) {.header: juce_gui_basics, importcpp: "#.threadComplete(@)".}
 
 type
-  TooltipWindow* {.header: juce_gui_basics, importcpp: "juce::TooltipWindow".} = object
+  TooltipWindow* {.header: juce_gui_basics, importcpp: "juce::TooltipWindow".} = object of Component
   TooltipWindowLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::TooltipWindow::LookAndFeelMethods".} = object
 
 proc setMillisecondsBeforeTipAppears*(this: var TooltipWindow, newTimeMs: int = 700) {.header: juce_gui_basics, importcpp: "#.setMillisecondsBeforeTipAppears(@)".}
@@ -2489,7 +2491,7 @@ proc shareImages*(this: var ContentSharer, images: int, callback: int, imageFile
 proc shareData*(this: var ContentSharer, mb: int, callback: int) {.header: juce_gui_basics, importcpp: "#.shareData(@)".}
 
 type
-  PropertyComponent* {.header: juce_gui_basics, importcpp: "juce::PropertyComponent".} = object
+  PropertyComponent* {.header: juce_gui_basics, importcpp: "juce::PropertyComponent".} = object of Component
   PropertyComponentLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::PropertyComponent::LookAndFeelMethods".} = object
 
 proc getPreferredHeight*(this: PropertyComponent): int {.header: juce_gui_basics, importcpp: "#.getPreferredHeight()".}
@@ -2500,7 +2502,7 @@ proc resized*(this: var PropertyComponent) {.header: juce_gui_basics, importcpp:
 proc enablementChanged*(this: var PropertyComponent) {.header: juce_gui_basics, importcpp: "#.enablementChanged()".}
 
 type
-  BooleanPropertyComponent* {.header: juce_gui_basics, importcpp: "juce::BooleanPropertyComponent".} = object
+  BooleanPropertyComponent* {.header: juce_gui_basics, importcpp: "juce::BooleanPropertyComponent".} = object of PropertyComponent
 
 proc setState*(this: var BooleanPropertyComponent, newState: bool) {.header: juce_gui_basics, importcpp: "#.setState(@)".}
 proc getState*(this: BooleanPropertyComponent): bool {.header: juce_gui_basics, importcpp: "#.getState()".}
@@ -2508,14 +2510,14 @@ proc paint*(this: var BooleanPropertyComponent, arg1: var int) {.header: juce_gu
 proc refresh*(this: var BooleanPropertyComponent) {.header: juce_gui_basics, importcpp: "#.refresh()".}
 
 type
-  ButtonPropertyComponent* {.header: juce_gui_basics, importcpp: "juce::ButtonPropertyComponent".} = object
+  ButtonPropertyComponent* {.header: juce_gui_basics, importcpp: "juce::ButtonPropertyComponent".} = object of PropertyComponent
 
 proc buttonClicked*(this: var ButtonPropertyComponent) {.header: juce_gui_basics, importcpp: "#.buttonClicked()".}
 proc getButtonText*(this: ButtonPropertyComponent): int {.header: juce_gui_basics, importcpp: "#.getButtonText()".}
 proc refresh*(this: var ButtonPropertyComponent) {.header: juce_gui_basics, importcpp: "#.refresh()".}
 
 type
-  ChoicePropertyComponent* {.header: juce_gui_basics, importcpp: "juce::ChoicePropertyComponent".} = object
+  ChoicePropertyComponent* {.header: juce_gui_basics, importcpp: "juce::ChoicePropertyComponent".} = object of PropertyComponent
 
 proc setIndex*(this: var ChoicePropertyComponent, newIndex: int) {.header: juce_gui_basics, importcpp: "#.setIndex(@)".}
 proc getIndex*(this: ChoicePropertyComponent): int {.header: juce_gui_basics, importcpp: "#.getIndex()".}
@@ -2523,7 +2525,7 @@ proc getChoices*(this: ChoicePropertyComponent): int {.header: juce_gui_basics, 
 proc refresh*(this: var ChoicePropertyComponent) {.header: juce_gui_basics, importcpp: "#.refresh()".}
 
 type
-  PropertyPanel* {.header: juce_gui_basics, importcpp: "juce::PropertyPanel".} = object
+  PropertyPanel* {.header: juce_gui_basics, importcpp: "juce::PropertyPanel".} = object of Component
 
 proc clear*(this: var PropertyPanel) {.header: juce_gui_basics, importcpp: "#.clear()".}
 proc addProperties*(this: var PropertyPanel, newPropertyComponents: int, extraPaddingBetweenComponents: int = 0) {.header: juce_gui_basics, importcpp: "#.addProperties(@)".}
@@ -2545,14 +2547,14 @@ proc paint*(this: var PropertyPanel, arg1: var int) {.header: juce_gui_basics, i
 proc resized*(this: var PropertyPanel) {.header: juce_gui_basics, importcpp: "#.resized()".}
 
 type
-  SliderPropertyComponent* {.header: juce_gui_basics, importcpp: "juce::SliderPropertyComponent".} = object
+  SliderPropertyComponent* {.header: juce_gui_basics, importcpp: "juce::SliderPropertyComponent".} = object of PropertyComponent
 
 proc setValue*(this: var SliderPropertyComponent, newValue: float64) {.header: juce_gui_basics, importcpp: "#.setValue(@)".}
 proc getValue*(this: SliderPropertyComponent): float64 {.header: juce_gui_basics, importcpp: "#.getValue()".}
 proc refresh*(this: var SliderPropertyComponent) {.header: juce_gui_basics, importcpp: "#.refresh()".}
 
 type
-  TextPropertyComponent* {.header: juce_gui_basics, importcpp: "juce::TextPropertyComponent".} = object
+  TextPropertyComponent* {.header: juce_gui_basics, importcpp: "juce::TextPropertyComponent".} = object of PropertyComponent
   TextPropertyComponentListener* {.header: juce_gui_basics, importcpp: "juce::TextPropertyComponent::Listener".} = object
 
 proc setText*(this: var TextPropertyComponent, newText: int) {.header: juce_gui_basics, importcpp: "#.setText(@)".}
@@ -2568,7 +2570,7 @@ proc refresh*(this: var TextPropertyComponent) {.header: juce_gui_basics, import
 proc textWasEdited*(this: var TextPropertyComponent) {.header: juce_gui_basics, importcpp: "#.textWasEdited()".}
 
 type
-  MultiChoicePropertyComponent* {.header: juce_gui_basics, importcpp: "juce::MultiChoicePropertyComponent".} = object
+  MultiChoicePropertyComponent* {.header: juce_gui_basics, importcpp: "juce::MultiChoicePropertyComponent".} = object of PropertyComponent
 
 proc isExpanded*(this: MultiChoicePropertyComponent): bool {.header: juce_gui_basics, importcpp: "#.isExpanded()".}
 proc isExpandable*(this: MultiChoicePropertyComponent): bool {.header: juce_gui_basics, importcpp: "#.isExpandable()".}
@@ -2592,7 +2594,7 @@ proc getAllCommands*(this: var JUCEApplicationImpl, arg1: var int) {.header: juc
 # proc perform*(this: var JUCEApplicationImpl, arg1: juce::ApplicationCommandTarget::InvocationInfo): bool {.header: juce_gui_basics, importcpp: "#.perform(@)".}
 
 type
-  BubbleComponent* {.header: juce_gui_basics, importcpp: "juce::BubbleComponent".} = object
+  BubbleComponent* {.header: juce_gui_basics, importcpp: "juce::BubbleComponent".} = object of Component
   BubbleComponentLookAndFeelMethods* {.header: juce_gui_basics, importcpp: "juce::BubbleComponent::LookAndFeelMethods".} = object
 
 proc setAllowedPlacement*(this: var BubbleComponent, newPlacement: int) {.header: juce_gui_basics, importcpp: "#.setAllowedPlacement(@)".}
@@ -2915,6 +2917,4 @@ proc getNumberOfColumns*(this: Grid): int {.header: juce_gui_basics, importcpp: 
 proc getNumberOfRows*(this: Grid): int {.header: juce_gui_basics, importcpp: "#.getNumberOfRows()".}
 
 
-
 include juce_gui_basics_lifting
-
